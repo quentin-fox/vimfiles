@@ -31,7 +31,7 @@ Plugin 'scrooloose/nerdtree'
 call vundle#end()            " required
 filetype plugin indent on    " required
 
-
+let R_assign=0
 syntax on
 set conceallevel=0
 let g:pandoc#syntax#conceal#use = 0
@@ -139,21 +139,5 @@ highlight SpellCap ctermfg=LightBlue guifg=LightBlue ctermbg=NONE guibg=NONE gui
 "ctrl-l to correct the last spelling mistake
 
 inoremap <C-l> <c-g>u<Esc>[s1z=`]a<c-g>u
-
-
-" latex stuff
-
-augroup latexgroup
-	autocmd! latexgroup
-	autocmd FileType tex nnoremap ;count :w<Cr>:!texcount %<Cr>
-	autocmd FileType tex set spell
-	autocmd FileType tex inoremap ;fn \footnote{}<++><Esc>?}<Enter>i
-	autocmd FileType tex inoremap ;ct \citet{}<++><Esc>?}<Enter>i
-	autocmd FileType tex inoremap ;cp \citep{}<++><Esc>?}<Enter>i
-	autocmd FileType tex inoremap ;it \emph{}<++><Esc>?}<Enter>i
-	autocmd FileType tex inoremap ;bf \textbf{}<++><Esc>?}<Enter>i
-	autocmd FileType tex inoremap ;if \begin{figure}[<++>]<Enter>\caption{<++>}<Enter>\label{fig:<++>}<Enter>\includegraphics[width = <++>]{<++>}<Enter>\end{figure}
-	autocmd FileType tex inoremap ;be <Esc>diwi\begin{<Esc>pa}<Enter><Enter>\end{<Esc>pa}<Esc>ki
-augroup END
 
 

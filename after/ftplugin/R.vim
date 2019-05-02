@@ -1,6 +1,5 @@
 let R_args_in_stline=0
 let R_show_arg_help=0
-inoremap  <Cmd>let @a=AssignInsert()<Cr><C-r>a
 let R_assign = 0
 set completeopt-=preview
 let g:pandoc#keyboard#use_default_mappings=0
@@ -39,3 +38,4 @@ function! AssignInsert()
 	endif
 endfunction
 
+inoremap  <Cmd>let @a=AssignInsert()<Cr><C-r>a
