@@ -26,6 +26,7 @@ Plugin 'junegunn/goyo.vim'
 Plugin 'tpope/vim-commentary'
 Plugin 'christoomey/vim-titlecase'
 Plugin 'itchyny/lightline.vim'
+Plugin 'scrooloose/nerdtree'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -113,15 +114,6 @@ nnoremap ;; /<++><Enter>"_c4l
 " paste from last yank
 
 nnoremap yp "0p
-
-"slime for python
-let g:slime_target = "vimterminal"
-let g:slime_dont_ask_default = 1
-let g:slime_vimterminal_cmd = "python"
-set switchbuf +=useopen
-
-nnoremap ;start :SlimeConfig<Enter><C-w>r<C-w><C-w><C-l><C-w><C-w>
-nnoremap ;stop :2bd!<Enter>
 
 " spelling
 
