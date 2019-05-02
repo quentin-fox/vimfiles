@@ -9,7 +9,6 @@ call vundle#begin()
 
 " let Vundle manage Vundle, required
 Plugin 'VundleVim/Vundle.vim'
-
 Plugin 'dkarter/bullets.vim'
 Plugin 'tpope/vim-surround'
 Plugin 'godlygeek/tabular'
@@ -68,6 +67,20 @@ augroup END
 " abbreviations
 
 source ~/.config/nvim/abbreviations.vim
+
+" nerdtree settings
+
+" let NERDTreeShowLineNumbers=0
+
+nnoremap <Tab> :NERDTreeToggle<Cr>
+
+augroup nerdtree
+	autocmd! nerdtree
+	autocmd FileType nerdtree setlocal nonumber norelativenumber 
+	autocmd FileType nerdtree highlight EndOfBuffer ctermfg=235 ctermbg=235
+	autocmd FileType nerdtree highlight CursorLine cterm=NONE ctermbg=237
+augroup END
+
 
 " exiting goyo won't reset line number colors
 
