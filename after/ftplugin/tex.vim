@@ -11,7 +11,14 @@ inoremap ;be <Esc>diwi\begin{<Esc>pa}<Enter><Enter>\end{<Esc>pa}<Esc>ki
 
 " vimtex
 
-let g:vimtex_compiler_latexmk = { 'continuous' : 0 }
+" let g:vimtex_compiler_latexmk = { 'continuous' : 0 }
 let g:vimtex_mappings_enabled=0
+let g:vimtex_compiler_latexmk_engines= {
+			\ 'xelatex': '-xelatex',
+			\ }
+let g:vimtex_view_method ='skim'
+let g:vimtex_view_automatic=1
+let g:vimtex_view_skim_activate=1
+
 nnoremap ;cp :w<Cr>:VimtexCompileSS<Cr>
 nnoremap ;vw :VimtexView<Cr>

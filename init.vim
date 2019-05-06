@@ -20,7 +20,6 @@ Plugin 'jpalardy/vim-slime'
 Plugin 'lervag/vimtex'
 Plugin 'jalvesaq/Nvim-R'
 Plugin 'ervandew/supertab'
-Plugin 'jiangmiao/auto-pairs'
 Plugin 'junegunn/goyo.vim'
 Plugin 'tpope/vim-commentary'
 Plugin 'christoomey/vim-titlecase'
@@ -31,15 +30,24 @@ Plugin 'scrooloose/nerdtree'
 call vundle#end()            " required
 filetype plugin indent on    " required
 
-let R_assign=0
+" basic setup
 syntax on
-set conceallevel=0
-let g:pandoc#syntax#conceal#use = 0
-let R_user_maps_only=0
-let g:SuperTabDefaultCompletionType = "<C-x><C-o>"
-set inccommand=nosplit
 set mouse=a
 set termencoding=utf-8 encoding=utf-8
+let g:SuperTabDefaultCompletionType = "<C-x><C-o>"
+
+" find/replace, case sensitivity
+set inccommand=nosplit
+set ignorecase
+set smartcase
+
+" conceal
+set conceallevel=0
+let g:pandoc#syntax#conceal#use = 0
+
+" disable nvim-r things
+let R_assign=0
+let R_user_maps_only=0
 
 " open config shortcuts
 nnoremap ;rc :sp ~/.config/nvim/init.vim<Cr>
@@ -141,3 +149,10 @@ highlight SpellCap ctermfg=LightBlue guifg=LightBlue ctermbg=NONE guibg=NONE gui
 inoremap <C-l> <c-g>u<Esc>[s1z=`]a<c-g>u
 
 
+let g:vimtex_mappings_enabled=0
+let g:vimtex_compiler_latexmk_engines= {
+			\ 'xelatex': '-xelatex',
+			\ }
+let g:vimtex_view_method ='skim'
+let g:vimtex_view_automatic=1
+let g:vimtex_view_skim_activate=1
