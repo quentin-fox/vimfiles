@@ -39,3 +39,8 @@ function! AssignInsert()
 endfunction
 
 inoremap  <Cmd>let @a=AssignInsert()<Cr><C-r>a
+
+nnoremap ;as {jI<Space><-<Space><Esc>0i
+inoremap ;as <Esc>{jI<Space><-<Space><Esc>0i
+
+nnoremap ;sm }kA<Space>%>%<Space>summary()<Esc>

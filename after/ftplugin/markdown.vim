@@ -1,7 +1,7 @@
 " spelling options
 
 highlight SpellBad cterm=underline ctermfg=Red guifg=Red ctermbg=NONE guibg=NONE
-highlight SpellCap cterm=undercurl ctermfg=81 gui=undercurl guifg=LightBlue guisp=LightBlue
+highlight SpellCap cterm=undercurl ctermfg=81 gui=undercurl guifg=81 guisp=LightBlue
 
 " pandoc options
 
@@ -26,9 +26,10 @@ let g:vim_markdown_math = 1
 let g:tex_conceal=""
 let g:vim_markdown_new_list_item_indent = 2
 let g:pandoc#command_use_message_buffers=0
+
+" mappings
+
 nnoremap ;vw :w<Cr>:Pandoc! pdf --filter pandoc-eqnos --pdf-engine=xelatex<Cr>
-highlight SpellBad ctermfg=Red guifg=Red ctermbg=NONE guibg=NONE guisp=Red cterm=undercurl
-highlight SpellCap ctermfg=LightBlue guifg=LightBlue ctermbg=NONE guibg=NONE guisp=LightBlue cterm=undercurl
 inoremap ;dm <Enter><Enter>$$  $$ {#eq:}<Enter><Enter><++><Esc>B2k3li
 inoremap ;im $$<++><Esc>4hi
 inoremap // \frac{}{<++>}<++><Esc>10hi
@@ -39,6 +40,4 @@ setlocal shiftwidth=4
 inoremap <silent> <Bar>   <Bar><Esc>:call <SID>align()<CR>a
 inoremap ;bf ****<++><Esc>5hi
 inoremap ;it **<++><Esc>4hi
-inoremap ;ol <Enter><Enter>1.<Space>
-inoremap ;il <Enter><Enter>-<Space>
 
