@@ -54,6 +54,19 @@ nnoremap ;rc :sp ~/.config/nvim/init.vim<Cr>
 nnoremap ;ft :execute 'sp ~/.config/nvim/after/ftplugin/' . &filetype . '.vim'<Cr>
 nnoremap ;ab :sp ~/.config/nvim/abbreviations.vim<Cr>
 
+" copy and paste
+
+" " Copy to clipboard
+vnoremap  sy  "+y
+nnoremap  sY  "+yg_
+nnoremap  sy  "+y
+
+" " Paste from clipboard
+nnoremap sp "+p
+nnoremap sP "+P
+vnoremap sp "+p
+vnoremap sP "+P
+
 " visuals and line numbers
 
 augroup allgroup
@@ -65,9 +78,9 @@ augroup allgroup
 	autocmd FileType * highlight LineNr cterm=NONE ctermfg=DarkGray guifg=DarkGray ctermbg=NONE guibg=NONE
 	autocmd FileType * highlight CursorLineNr cterm=bold ctermfg=11 guifg=11 ctermbg=NONE guibg=NONE
 	autocmd FileType * highlight VertSplit ctermbg=NONE guibg=NONE ctermfg=DarkGrey guifg=DarkGrey cterm=NONE
-	autocmd FileType * highlight Pmenu ctermfg=DarkGrey ctermbg=237
-	autocmd FileType * highlight PmenuSel ctermfg=252 ctermbg=DarkGrey
-	autocmd FileType * highlight MatchParen ctermfg=252 ctermbg=239
+	autocmd FileType * highlight Pmenu ctermfg=DarkGrey ctermbg=237 guifg=DarkGrey guibg=237
+	autocmd FileType * highlight PmenuSel ctermfg=252 ctermbg=DarkGrey guifg=252 guibg=DarkGrey
+	autocmd FileType * highlight MatchParen ctermfg=252 ctermbg=239 guifg=252 guibg=239
 	autocmd FileType * set foldcolumn=1
 	autocmd FileType * highlight FoldColumn ctermbg=NONE guibg=NONE
 augroup END
@@ -85,8 +98,8 @@ nnoremap <Tab> :NERDTreeToggle<Cr>
 augroup nerdtree
 	autocmd! nerdtree
 	autocmd FileType nerdtree setlocal nonumber norelativenumber 
-	autocmd FileType nerdtree highlight EndOfBuffer ctermfg=235 ctermbg=235
-	autocmd FileType nerdtree highlight CursorLine cterm=NONE ctermbg=237
+	autocmd FileType nerdtree highlight EndOfBuffer ctermfg=235 ctermbg=235 guifg=235 guibg=235
+	autocmd FileType nerdtree highlight CursorLine cterm=NONE ctermbg=237term=NONE  guibg=237
 augroup END
 
 
@@ -156,3 +169,13 @@ let g:vimtex_compiler_latexmk_engines= {
 let g:vimtex_view_method ='skim'
 let g:vimtex_view_automatic=1
 let g:vimtex_view_skim_activate=1
+
+" templates
+
+if has ("autocmd")
+	augroup templates
+		autocmd BufNewFile *.tex 0r ~/.config/nvim/templates/skeleton.tex
+		autocmd BufNewFile *.Rmd 0r ~/.config/nvim/templates/skeleton.Rmd
+		autocmd BufNewFile *.md 0r ~/.config/nvim/templates/skeleton.md
+	augroup END
+endif
