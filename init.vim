@@ -16,7 +16,6 @@ Plugin 'vim-pandoc/vim-pandoc'
 Plugin 'vim-pandoc/vim-pandoc-syntax'
 Plugin 'vim-pandoc/vim-rmarkdown'
 Plugin 'plasticboy/vim-markdown'
-Plugin 'jpalardy/vim-slime'
 Plugin 'lervag/vimtex'
 Plugin 'jalvesaq/Nvim-R'
 Plugin 'ervandew/supertab'
@@ -25,21 +24,39 @@ Plugin 'tpope/vim-commentary'
 Plugin 'christoomey/vim-titlecase'
 Plugin 'itchyny/lightline.vim'
 Plugin 'scrooloose/nerdtree'
+Plugin 'jiangmiao/auto-pairs'
+Plugin 'itchyny/calendar.vim'
+
+"python plugins
+Plugin 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+Plugin 'Shougo/context_filetype.vim'
+Plugin 'zchee/deoplete-jedi', { 'do': ':UpdateRemotePlugins' }
+Plugin 'davidhalter/jedi-vim'
+Plugin 'neomake/neomake'
+Plugin 'HiPhish/repl.nvim'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 filetype plugin indent on    " required
-
 " basic setup
 syntax on
 set mouse=a
 set termencoding=utf-8 encoding=utf-8
+
+" completion
+
 let g:SuperTabDefaultCompletionType = "<C-x><C-o>"
+
+
 
 " find/replace, case sensitivity
 set inccommand=nosplit
 set ignorecase
 set smartcase
+nnoremap ;<Enter> :nohlsearch<Cr>
+
+source ~/.config/nvim/highlight.vim
+
 
 " conceal
 set conceallevel=0
@@ -67,22 +84,22 @@ nnoremap sP "+P
 vnoremap sp "+p
 vnoremap sP "+P
 
+" capital U to re-do
+
+nnoremap U <C-r>
+
 " visuals and line numbers
+set number relativenumber
+
+" toggle for line number (used for debugging)
+
+nnoremap ;ln :set number relativenumber!<Cr>
 
 augroup allgroup
 	autocmd! allgroup
 	autocmd FileType * let g:lightline = {
 				\ 'colorscheme': 'one',
 				\ }
-	autocmd FileType * set number relativenumber
-	autocmd FileType * highlight LineNr cterm=NONE ctermfg=DarkGray guifg=DarkGray ctermbg=NONE guibg=NONE
-	autocmd FileType * highlight CursorLineNr cterm=bold ctermfg=11 guifg=11 ctermbg=NONE guibg=NONE
-	autocmd FileType * highlight VertSplit ctermbg=NONE guibg=NONE ctermfg=DarkGrey guifg=DarkGrey cterm=NONE
-	autocmd FileType * highlight Pmenu ctermfg=DarkGrey ctermbg=237 guifg=DarkGrey guibg=237
-	autocmd FileType * highlight PmenuSel ctermfg=252 ctermbg=DarkGrey guifg=252 guibg=DarkGrey
-	autocmd FileType * highlight MatchParen ctermfg=252 ctermbg=239 guifg=252 guibg=239
-	autocmd FileType * set foldcolumn=1
-	autocmd FileType * highlight FoldColumn ctermbg=NONE guibg=NONE
 augroup END
 
 " abbreviations
@@ -102,15 +119,17 @@ augroup nerdtree
 	autocmd FileType nerdtree highlight CursorLine cterm=NONE ctermbg=237term=NONE  guibg=237
 augroup END
 
+" calendar
+" ;cal to enter, pressing q exits
+nnoremap ;cal :Calendar -view=year -split=vertical -width=27<Cr>
+
 
 " exiting goyo won't reset line number colors
 
 function! s:goyo_leave()
-	highlight LineNr cterm=NONE ctermfg=DarkGray guifg=DarkGray ctermbg=NONE guibg=NONE
-	highlight CursorLineNr cterm=bold ctermfg=11 guifg=11 ctermbg=NONE guibg=NONE
-	highlight FoldColumn ctermbg=NONE guibg=NONE
-	highlight VertSplit ctermbg=NONE guibg=NONE
+	source ~/.config/nvim/highlight.vim
 endfunction
+
 
 autocmd! User GoyoLeave nested call <SID>goyo_leave()
 
@@ -151,9 +170,6 @@ nnoremap yp "0p
 
 " spelling
 
-let &t_Cs = "\e[4:3m"
-let &t_Ce = "\e[4:0m"
-
 highlight SpellBad ctermfg=Red guifg=Red ctermbg=NONE guibg=NONE guisp=Red cterm=undercurl
 highlight SpellCap ctermfg=LightBlue guifg=LightBlue ctermbg=NONE guibg=NONE guisp=LightBlue cterm=undercurl
 
@@ -179,3 +195,74 @@ if has ("autocmd")
 		autocmd BufNewFile *.md 0r ~/.config/nvim/templates/skeleton.md
 	augroup END
 endif
+
+
+nnoremap ;tde A<Space><C-r>=substitute(&commentstring, '%s', '', 'g')<Cr>TODO<Space><Space>(<C-r>=strftime("\%Y-\%m-\%d")<Cr>)<Esc>TOa
+nnoremap ;tdl A<C-r>=substitute(&commentstring, '%s', '', 'g')<Cr>TODO<Space><Space>(<C-r>=strftime("\%Y-\%m-\%d")<Cr>)<Esc>TOa
+
+"python
+
+" Neomake 
+
+" Run linter on write
+autocmd! BufWritePost * Neomake
+
+" Check code as python3 by default
+let g:neomake_python_python_maker = neomake#makers#ft#python#python()
+let g:neomake_python_flake8_maker = neomake#makers#ft#python#flake8()
+let g:neomake_python_python_maker.exe = 'python3 -m py_compile'
+let g:neomake_python_flake8_maker.exe = 'python3 -m flake8'
+
+" Disable error messages inside the buffer, next to the problematic line
+let g:neomake_virtualtext_current_error = 0
+
+" Deoplete 
+
+" Use deoplete only for python
+
+augroup pythoncomplete
+    autocmd! pythoncomplete
+    autocmd FileType python call deoplete#enable()
+    autocmd BufEnter *.py call deoplete#enable()        
+    autocmd BufLeave *.py call deoplete#disable()        
+augroup END
+
+let g:deoplete#enable_ignore_case = 1
+let g:deoplete#enable_smart_case = 1
+" complete with words from any opened file
+let g:context_filetype#same_filetypes = {}
+let g:context_filetype#same_filetypes._ = '_'
+set completeopt+=noinsert
+set completeopt-=preview
+
+" Jedi-vim 
+
+" Disable autocompletion (using deoplete instead)
+let g:jedi#completions_enabled = 0
+
+" All these mappings work only for python code:
+" Go to definition
+let g:jedi#goto_command = ',d'
+" Find ocurrences
+let g:jedi#usages_command = ',o'
+" Find assignments
+let g:jedi#goto_assignments_command = ',a'
+" Go to definition in new tab
+nmap ,D :tab split<CR>:call jedi#goto()<CR>
+
+" REPL for python
+
+"remove binding for s, it's essentially just ci
+
+augroup pythonrepl
+	autocmd! pythonrepl
+	autocmd FileType python nmap \rf :Repl python<Cr>a
+	autocmd FileType python nmap s <Plug>(ReplSend)
+	autocmd FileType python nmap ss <Plug>(ReplSend)ap
+augroup END
+
+au TermOpen * setlocal nonumber norelativenumber
+
+" get out of terminal mode with escape
+tnoremap <Esc> <C-\><C-n>
+

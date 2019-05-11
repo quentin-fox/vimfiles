@@ -1,7 +1,7 @@
-" spelling options
+" highlighting
 
-highlight SpellBad cterm=underline ctermfg=Red guifg=Red ctermbg=NONE guibg=NONE
-highlight SpellCap cterm=undercurl ctermfg=81 gui=undercurl guifg=81 guisp=LightBlue
+set spell
+source ~/.config/nvim/highlight.vim
 
 " pandoc options
 
@@ -35,6 +35,8 @@ inoremap ;im $$<++><Esc>4hi
 inoremap // \frac{}{<++>}<++><Esc>10hi
 inoremap ø <C-d>
 inoremap π <C-t>
+nnoremap ø <<
+nnoremap π >>
 setlocal tabstop=4
 setlocal shiftwidth=4 
 inoremap <silent> <Bar>   <Bar><Esc>:call <SID>align()<CR>a

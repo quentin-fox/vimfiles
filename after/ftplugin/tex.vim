@@ -1,3 +1,8 @@
+" highlighting
+
+set spell!
+source ~/.config/nvim/highlight.vim
+
 " snippets
 nnoremap ;count :w<Cr>:!texcount %<Cr>
 set spell

@@ -1,3 +1,8 @@
+" highlighting
+
+set spell!
+source ~/.config/nvim/highlight.vim
+
 let R_args_in_stline=0
 let R_show_arg_help=0
 let R_assign = 0
