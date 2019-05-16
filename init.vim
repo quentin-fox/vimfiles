@@ -34,6 +34,7 @@ Plugin 'zchee/deoplete-jedi', { 'do': ':UpdateRemotePlugins' }
 Plugin 'davidhalter/jedi-vim'
 Plugin 'neomake/neomake'
 Plugin 'HiPhish/repl.nvim'
+Plugin 'Vimjas/vim-python-pep8-indent'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -43,10 +44,17 @@ syntax on
 set mouse=a
 set termencoding=utf-8 encoding=utf-8
 
+"persistent undo
+set undodir=~/.config/nvim/undodir
+set undofile
+
+
 " completion
 
 let g:SuperTabDefaultCompletionType = "<C-x><C-o>"
 
+" let g:neomake_verbose=3
+let g:neomake_python_python_exe = 'python3'
 
 
 " find/replace, case sensitivity
@@ -87,6 +95,14 @@ vnoremap sP "+P
 " capital U to re-do
 
 nnoremap U <C-r>
+
+" shortcut to toggle spelling
+
+nnoremap <silent> ;sp :set spell!<Cr>
+" add white space in normal mode
+
+" nnoremap <C-k> O<Esc>j
+" nnoremap <C-j> o<Esc>k
 
 " visuals and line numbers
 set number relativenumber
@@ -170,6 +186,8 @@ nnoremap yp "0p
 
 " spelling
 
+set nospell
+
 highlight SpellBad ctermfg=Red guifg=Red ctermbg=NONE guibg=NONE guisp=Red cterm=undercurl
 highlight SpellCap ctermfg=LightBlue guifg=LightBlue ctermbg=NONE guibg=NONE guisp=LightBlue cterm=undercurl
 
@@ -205,16 +223,35 @@ nnoremap ;tdl A<C-r>=substitute(&commentstring, '%s', '', 'g')<Cr>TODO<Space><Sp
 " Neomake 
 
 " Run linter on write
-autocmd! BufWritePost * Neomake
+call neomake#configure#automake('nw', 750)
+
+augroup neomakeft
+	autocmd! neomakeft
+	autocmd BufEnter * silent NeomakeDisableBuffer
+	autocmd BufEnter *.py silent NeomakeEnableBuffer
+augroup END
+
+let g:neomake_error_sign = {'text': '>', 'texthl': 'NeomakeErrorSign'}
+let g:neomake_warning_sign = {
+     \   'text': '?',
+     \   'texthl': 'NeomakeWarningSign',
+     \ }
+let g:neomake_message_sign = {
+      \   'text': '➤',
+      \   'texthl': 'NeomakeMessageSign',
+      \ }
+let g:neomake_info_sign = {'text': 'i', 'texthl': 'NeomakeInfoSign'}
 
 " Check code as python3 by default
-let g:neomake_python_python_maker = neomake#makers#ft#python#python()
-let g:neomake_python_flake8_maker = neomake#makers#ft#python#flake8()
-let g:neomake_python_python_maker.exe = 'python3 -m py_compile'
-let g:neomake_python_flake8_maker.exe = 'python3 -m flake8'
+" pylint will throw errors, use flake8 instead
+
+" disable blank end of document errors
+
+let g:neomake_python_enabled_makers = ['flake8']
+" configuration for flake8 found at ~/.config/flake8
 
 " Disable error messages inside the buffer, next to the problematic line
-let g:neomake_virtualtext_current_error = 0
+let g:neomake_virtualtext_current_error = 1
 
 " Deoplete 
 
@@ -234,6 +271,10 @@ let g:context_filetype#same_filetypes = {}
 let g:context_filetype#same_filetypes._ = '_'
 set completeopt+=noinsert
 set completeopt-=preview
+
+" python indentation
+
+let g:python_pep8_indent_hang_closing=0
 
 " Jedi-vim 
 
@@ -256,13 +297,20 @@ nmap ,D :tab split<CR>:call jedi#goto()<CR>
 
 augroup pythonrepl
 	autocmd! pythonrepl
-	autocmd FileType python nmap \rf :Repl python<Cr>a
-	autocmd FileType python nmap s <Plug>(ReplSend)
-	autocmd FileType python nmap ss <Plug>(ReplSend)ap
+	autocmd FileType python nmap \rf ms:Repl<Cr><C-w><C-p>`s
+	autocmd FileType python nmap s ms<Plug>(ReplSend)
+	autocmd FileType python nmap ss sip 
+	autocmd FileType python nmap \rr :w<Cr>:!python3 %<Cr>
 augroup END
 
 au TermOpen * setlocal nonumber norelativenumber
 
 " get out of terminal mode with escape
 tnoremap <Esc> <C-\><C-n>
+tnoremap <C-w> <C-\><C-n><C-w>
 
+" jump to current paragraph or next paragraph
+
+" '^\w\(.#\)\@!' will jump past any comments at beginning of line
+tnoremap <silent> ;d <C-\><C-n><C-w><C-p><Esc>`s}:call search('^\w\(.#\)\@!')<Cr>
+tnoremap ;l <C-\><C-n><C-w><C-p><Esc>`s

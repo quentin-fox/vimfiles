@@ -1,6 +1,6 @@
 " highlighting
 
-set spell!
+set nospell
 source ~/.config/nvim/highlight.vim
 
 let R_args_in_stline=0

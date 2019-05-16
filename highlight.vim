@@ -8,3 +8,11 @@ highlight FoldColumn ctermbg=NONE guibg=NONE
 highlight Todo ctermbg=NONE guibg=NONE ctermfg=11 guifg=11 cterm=underline
 highlight SpellBad cterm=underline ctermfg=Red guifg=Red ctermbg=NONE guibg=NONE
 highlight SpellCap cterm=undercurl ctermfg=81 gui=undercurl guifg=81 guisp=LightBlue
+
+"neomake linting bar
+
+highlight NeomakeErrorSignDefault ctermbg=NONE guibg=NONE ctermfg=9 cterm=bold
+highlight NeomakeInfoSignDefault ctermbg=NONE guibg=NONE ctermfg=121 cterm=bold
+highlight NeomakeWarningSignDefault ctermbg=NONE guibg=NONE ctermfg=11 cterm=bold
+highlight NeomakeMessageSignDefault ctermbg=NONE guibg=NONE ctermfg=242 cterm=bold
+highlight SignColumn ctermbg=NONE
