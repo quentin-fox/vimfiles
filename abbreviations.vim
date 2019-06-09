@@ -4,3 +4,4 @@ abbr teh the
 abbr Teh The
 abbr tihs this
 abbr Tihs This
+abbr MAID MAiD

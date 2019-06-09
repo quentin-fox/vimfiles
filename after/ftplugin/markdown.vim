@@ -1,6 +1,6 @@
 " highlighting
 
-set spell
+setlocal spell
 source ~/.config/nvim/highlight.vim
 
 " pandoc options
@@ -29,7 +29,8 @@ let g:pandoc#command_use_message_buffers=0
 
 " mappings
 
-nnoremap ;vw :w<Cr>:Pandoc! pdf --filter pandoc-eqnos --pdf-engine=xelatex<Cr>
+nnoremap ;vw :w<Cr>:Pandoc! pdf --pdf-engine=xelatex<Cr>
+nnoremap ;dx :w<Cr>:Pandoc! docx --reference-doc ~/Desktop/latex_resources/notes.docx<Cr>
 inoremap ;dm <Enter><Enter>$$  $$ {#eq:}<Enter><Enter><++><Esc>B2k3li
 inoremap ;im $$<++><Esc>4hi
 inoremap // \frac{}{<++>}<++><Esc>10hi

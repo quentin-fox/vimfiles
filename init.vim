@@ -8,33 +8,50 @@ call vundle#begin()
 "call vundle#begin('~/some/path/here')
 
 " let Vundle manage Vundle, required
+
+" basics
 Plugin 'VundleVim/Vundle.vim'
 Plugin 'dkarter/bullets.vim'
 Plugin 'tpope/vim-surround'
-Plugin 'godlygeek/tabular'
-Plugin 'vim-pandoc/vim-pandoc'
-Plugin 'vim-pandoc/vim-pandoc-syntax'
-Plugin 'vim-pandoc/vim-rmarkdown'
-Plugin 'plasticboy/vim-markdown'
-Plugin 'lervag/vimtex'
-Plugin 'jalvesaq/Nvim-R'
 Plugin 'ervandew/supertab'
 Plugin 'junegunn/goyo.vim'
 Plugin 'tpope/vim-commentary'
 Plugin 'christoomey/vim-titlecase'
 Plugin 'itchyny/lightline.vim'
-Plugin 'scrooloose/nerdtree'
 Plugin 'jiangmiao/auto-pairs'
-Plugin 'itchyny/calendar.vim'
 
-"python plugins
+" nerdtree
+Plugin 'scrooloose/nerdtree'
+
+" colorschemes
+
+Plugin 'andreypopp/vim-colors-plain'
+Plugin 'ayu-theme/ayu-vim'
+
+" markdown
+Plugin 'godlygeek/tabular'
+Plugin 'vim-pandoc/vim-pandoc'
+Plugin 'vim-pandoc/vim-pandoc-syntax'
+Plugin 'plasticboy/vim-markdown'
+
+" r
+Plugin 'vim-pandoc/vim-rmarkdown'
+Plugin 'jalvesaq/Nvim-R'
+
+" latex
+Plugin 'lervag/vimtex'
+
+" python
 Plugin 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plugin 'Shougo/context_filetype.vim'
 Plugin 'zchee/deoplete-jedi', { 'do': ':UpdateRemotePlugins' }
 Plugin 'davidhalter/jedi-vim'
 Plugin 'neomake/neomake'
-Plugin 'HiPhish/repl.nvim'
 Plugin 'Vimjas/vim-python-pep8-indent'
+Plugin 'HiPhish/repl.nvim'
+Plugin 'mtikekar/nvim-send-to-term'
+Plugin 'jeetsukumaran/vim-pythonsense'
+
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -48,6 +65,11 @@ set termencoding=utf-8 encoding=utf-8
 set undodir=~/.config/nvim/undodir
 set undofile
 
+" colors ~/.config/nvim/colors
+
+set termguicolors
+set background=dark
+colorscheme plain
 
 " completion
 
@@ -61,7 +83,7 @@ let g:neomake_python_python_exe = 'python3'
 set inccommand=nosplit
 set ignorecase
 set smartcase
-nnoremap ;<Enter> :nohlsearch<Cr>
+nnoremap <silent> ;<Enter> :nohlsearch<Cr>
 
 source ~/.config/nvim/highlight.vim
 
@@ -81,16 +103,20 @@ nnoremap ;ab :sp ~/.config/nvim/abbreviations.vim<Cr>
 
 " copy and paste
 
-" " Copy to clipboard
+" Copy to clipboard
 vnoremap  sy  "+y
 nnoremap  sY  "+yg_
 nnoremap  sy  "+y
 
-" " Paste from clipboard
+" Paste from clipboard
 nnoremap sp "+p
 nnoremap sP "+P
 vnoremap sp "+p
 vnoremap sP "+P
+
+" Y to yank until end of the line
+
+nnoremap Y y$
 
 " capital U to re-do
 
@@ -115,8 +141,12 @@ augroup allgroup
 	autocmd! allgroup
 	autocmd FileType * let g:lightline = {
 				\ 'colorscheme': 'one',
+				\ 'active': {
+				\ 'right': [ [ 'lineinfo' ],
+				\ [ 'percent' ] ]
+				\ },
 				\ }
-augroup END
+augroup end
 
 " abbreviations
 
@@ -133,7 +163,7 @@ augroup nerdtree
 	autocmd FileType nerdtree setlocal nonumber norelativenumber 
 	autocmd FileType nerdtree highlight EndOfBuffer ctermfg=235 ctermbg=235 guifg=235 guibg=235
 	autocmd FileType nerdtree highlight CursorLine cterm=NONE ctermbg=237term=NONE  guibg=237
-augroup END
+augroup end
 
 " calendar
 " ;cal to enter, pressing q exits
@@ -162,7 +192,7 @@ autocmd Filetype * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
 " goyo
 let g:goyo_height=92
 let g:goyo_width=95
-map ;w :Goyo \| set linebreak<Cr>
+map <silent> ;w :Goyo \| set linebreak<Cr>
 
 " rebind beginning and end of lines
 
@@ -179,10 +209,6 @@ nnoremap k gk
 
 inoremap ;; <Esc>/<++><Enter>"_c4l
 nnoremap ;; /<++><Enter>"_c4l
-
-" paste from last yank
-
-nnoremap yp "0p
 
 " spelling
 
@@ -211,7 +237,7 @@ if has ("autocmd")
 		autocmd BufNewFile *.tex 0r ~/.config/nvim/templates/skeleton.tex
 		autocmd BufNewFile *.Rmd 0r ~/.config/nvim/templates/skeleton.Rmd
 		autocmd BufNewFile *.md 0r ~/.config/nvim/templates/skeleton.md
-	augroup END
+	augroup end
 endif
 
 
@@ -229,7 +255,7 @@ augroup neomakeft
 	autocmd! neomakeft
 	autocmd BufEnter * silent NeomakeDisableBuffer
 	autocmd BufEnter *.py silent NeomakeEnableBuffer
-augroup END
+augroup end
 
 let g:neomake_error_sign = {'text': '>', 'texthl': 'NeomakeErrorSign'}
 let g:neomake_warning_sign = {
@@ -241,11 +267,6 @@ let g:neomake_message_sign = {
       \   'texthl': 'NeomakeMessageSign',
       \ }
 let g:neomake_info_sign = {'text': 'i', 'texthl': 'NeomakeInfoSign'}
-
-" Check code as python3 by default
-" pylint will throw errors, use flake8 instead
-
-" disable blank end of document errors
 
 let g:neomake_python_enabled_makers = ['flake8']
 " configuration for flake8 found at ~/.config/flake8
@@ -262,7 +283,7 @@ augroup pythoncomplete
     autocmd FileType python call deoplete#enable()
     autocmd BufEnter *.py call deoplete#enable()        
     autocmd BufLeave *.py call deoplete#disable()        
-augroup END
+augroup end
 
 let g:deoplete#enable_ignore_case = 1
 let g:deoplete#enable_smart_case = 1
@@ -289,19 +310,28 @@ let g:jedi#usages_command = ',o'
 " Find assignments
 let g:jedi#goto_assignments_command = ',a'
 " Go to definition in new tab
-nmap ,D :tab split<CR>:call jedi#goto()<CR>
+" nmap ,D :tab split<CR>:call jedi#goto()<CR>
 
 " REPL for python
 
-"remove binding for s, it's essentially just ci
+let g:is_pythonsense_suppress_object_keymaps = 0
+let g:is_pythonsense_suppress_motion_keymaps = 1
+let g:is_pythonsense_suppress_location_keymaps = 1
+
 
 augroup pythonrepl
 	autocmd! pythonrepl
-	autocmd FileType python nmap \rf ms:Repl<Cr><C-w><C-p>`s
-	autocmd FileType python nmap s ms<Plug>(ReplSend)
-	autocmd FileType python nmap ss sip 
-	autocmd FileType python nmap \rr :w<Cr>:!python3 %<Cr>
-augroup END
+	autocmd FileType python nmap <silent> \rf ms:Repl<Cr>:SendHere<Cr><C-w><C-p>`s
+	autocmd FileType python nmap <silent> \rr :w<Cr>:!python3 %<Cr>
+    autocmd FileType python nmap <silent> \ri :execute "below sp <bar> term python3 -i %"<Cr>
+    autocmd FileType python nmap <silent> \rq :bdelete! term<Cr>
+augroup end
+
+function! ClosePyRepl()
+    if len(bufname("term")) != 0
+        exe "bdelete! term<Tab>")
+    endif
+endfunction
 
 au TermOpen * setlocal nonumber norelativenumber
 
@@ -309,8 +339,56 @@ au TermOpen * setlocal nonumber norelativenumber
 tnoremap <Esc> <C-\><C-n>
 tnoremap <C-w> <C-\><C-n><C-w>
 
-" jump to current paragraph or next paragraph
+" jump to 'current paragraph' or next paragraph
 
 " '^\w\(.#\)\@!' will jump past any comments at beginning of line
-tnoremap <silent> ;d <C-\><C-n><C-w><C-p><Esc>`s}:call search('^\w\(.#\)\@!')<Cr>
-tnoremap ;l <C-\><C-n><C-w><C-p><Esc>`s
+" tnoremap <silent> ;d <C-\><C-n><C-w><C-p><Esc>`s}:call search('^\w\(.#\)\@!')<Cr>
+" tnoremap ;l <C-\><C-n><C-w><C-p><Esc>`s
+
+
+"global replace operator
+nnoremap <silent> ** :set operatorfunc=<SID>ReplaceOperator<Cr>g@
+vnoremap <silent> ** :<C-u>call <SID>ReplaceOperator(visualmode())<Cr>
+
+function! s:ReplaceOperator(type)
+	let saved_unnamed_register = @@
+	if a:type ==# 'char'
+		normal! `[v`]y
+	elseif a:type ==# 'v'
+		normal! `<v`>y
+	else
+		return
+	endif
+	call feedkeys(":%s/" . escape(@@, '/.~^*') . "//g\<Left>\<Left>")
+
+	let @@ = saved_unnamed_register 
+endfunction
+
+" window navigation
+
+nnoremap <C-h> <C-w><C-h>
+nnoremap <C-j> <C-w><C-j>
+nnoremap <C-k> <C-w><C-k>
+nnoremap <C-l> <C-w><C-l>
+
+tnoremap <C-h> <C-\><C-n><C-w><C-h>
+tnoremap <C-j> <C-\><C-n><C-w><C-j>
+tnoremap <C-k> <C-\><C-n><C-w><C-k>
+tnoremap <C-l> <C-\><C-n><C-w><C-l>
+
+
+" transcription
+command! -nargs=1 -complete=file Transcribe call execute("below 6sp | term mpv --input-file=~/.config/mpv/mpvfifo " . fnameescape(<q-args>))
+
+augroup transcribe
+	autocmd! transcribe
+	autocmd BufNew,BufNewFile *transcript.md nnoremap <silent> <Cr> :silent execute "!echo 'keypress p' > ~/.config/mpv/mpvfifo"<Cr>
+	autocmd BufNew,BufNewFile *transcript.md nnoremap <silent> = :silent execute "!echo 'seek 4' > ~/.config/mpv/mpvfifo"<Cr>
+	autocmd BufNew,BufNewFile *transcript.md nnoremap <silent> - :silent execute "!echo 'seek -4' > ~/.config/mpv/mpvfifo"<Cr>
+augroup end
+
+" find highlighting group under cursor
+
+map <F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
+\ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
+\ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
