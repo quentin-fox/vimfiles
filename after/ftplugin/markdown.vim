@@ -6,6 +6,7 @@ source ~/.config/nvim/highlight.vim
 " pandoc options
 
 let g:pandoc#command#use_message_buffer=0
+let g:pandoc#modules#disabled = ["folding"]
 
 " markdown stuff
 
@@ -21,7 +22,6 @@ function! s:align()
   endif
 endfunction
 
-let g:pandoc#modules#disabled=["folding"]
 let g:vim_markdown_math = 1
 let g:tex_conceal=""
 let g:vim_markdown_new_list_item_indent = 2

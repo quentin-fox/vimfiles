@@ -1,6 +1,14 @@
-set nocompatible              " be iMproved, required
-filetype off                  " required
+ "  _           _   _                 _             
+ " (_)  _ __   (_) | |_      __   __ (_)  _ __ ___  
+ " | | | '_ \  | | | __|     \ \ / / | | | '_ ` _ \ 
+ " | | | | | | | | | |_   _   \ V /  | | | | | | | |
+ " |_| |_| |_| |_|  \__| (_)   \_/   |_| |_| |_| |_|
+ "                                                  
 
+
+" {{{ plugins
+set nocompatible              " be iMproved, required
+filetype off                  " required 
 " set the runtime path to include Vundle and initialize
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
@@ -19,6 +27,11 @@ Plugin 'tpope/vim-commentary'
 Plugin 'christoomey/vim-titlecase'
 Plugin 'itchyny/lightline.vim'
 Plugin 'jiangmiao/auto-pairs'
+Plugin 'tpope/vim-speeddating'
+Plugin 'triglav/vim-visual-increment'
+Plugin 'AndrewRadev/sideways.vim'
+Plugin 'junegunn/fzf.vim'
+Plugin 'easymotion/vim-easymotion' 
 
 " nerdtree
 Plugin 'scrooloose/nerdtree'
@@ -27,16 +40,22 @@ Plugin 'scrooloose/nerdtree'
 
 Plugin 'andreypopp/vim-colors-plain'
 Plugin 'ayu-theme/ayu-vim'
+Plugin 'romainl/Apprentice'
 
 " markdown
 Plugin 'godlygeek/tabular'
 Plugin 'vim-pandoc/vim-pandoc'
+Plugin 'vim-pandoc/vim-markdownfootnotes'
 Plugin 'vim-pandoc/vim-pandoc-syntax'
 Plugin 'plasticboy/vim-markdown'
 
 " r
-Plugin 'vim-pandoc/vim-rmarkdown'
+" Plugin 'vim-pandoc/vim-rmarkdown'
+Plugin 'ncm2/ncm2'
+Plugin 'roxma/nvim-yarp'
 Plugin 'jalvesaq/Nvim-R'
+Plugin 'chrisbra/csv.vim'
+Plugin 'gaalcaras/ncm-R'
 
 " latex
 Plugin 'lervag/vimtex'
@@ -56,7 +75,10 @@ Plugin 'jeetsukumaran/vim-pythonsense'
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 filetype plugin indent on    " required
-" basic setup
+
+" }}}
+" {{{ basic setup
+
 syntax on
 set mouse=a
 set termencoding=utf-8 encoding=utf-8
@@ -65,36 +87,58 @@ set termencoding=utf-8 encoding=utf-8
 set undodir=~/.config/nvim/undodir
 set undofile
 
-" colors ~/.config/nvim/colors
-
-set termguicolors
-set background=dark
-colorscheme plain
-
-" completion
-
-let g:SuperTabDefaultCompletionType = "<C-x><C-o>"
-
-" let g:neomake_verbose=3
-let g:neomake_python_python_exe = 'python3'
-
-
 " find/replace, case sensitivity
 set inccommand=nosplit
 set ignorecase
 set smartcase
 nnoremap <silent> ;<Enter> :nohlsearch<Cr>
 
-source ~/.config/nvim/highlight.vim
-
 
 " conceal
 set conceallevel=0
 let g:pandoc#syntax#conceal#use = 0
 
-" disable nvim-r things
-let R_assign=0
-let R_user_maps_only=0
+" visuals and line numbers
+set number relativenumber
+
+" Disables Automatic Line Numbering
+autocmd Filetype * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
+
+" Change cursor shape between insert and normal mode in iTerm2.app
+if $TERM_PROGRAM =~ "iTerm"
+    let &t_SI = "\<Esc>]50;CursorShape=1\x7" " Vertical bar in insert mode
+    let &t_EI = "\<Esc>]50;CursorShape=0\x7" " Block in normal mode
+endif
+
+set completeopt+=noinsert
+set completeopt-=preview
+au TermOpen * setlocal nonumber norelativenumber
+
+"fzf
+set rtp+=/usr/local/opt/fzf
+
+" completion
+
+let g:SuperTabDefaultCompletionType = "<C-x><C-o>"
+
+
+" }}}
+" {{{ colors ~/.config/nvim/colors
+
+set termguicolors
+" set background=dark
+colorscheme Apprentice
+
+
+" }}}
+"{{{ sourcing files
+
+source ~/.config/nvim/abbreviations.vim
+
+source ~/.config/nvim/highlight.vim
+
+"}}}
+"{{{ basic keybindings
 
 " open config shortcuts
 nnoremap ;rc :sp ~/.config/nvim/init.vim<Cr>
@@ -125,74 +169,27 @@ nnoremap U <C-r>
 " shortcut to toggle spelling
 
 nnoremap <silent> ;sp :set spell!<Cr>
-" add white space in normal mode
-
-" nnoremap <C-k> O<Esc>j
-" nnoremap <C-j> o<Esc>k
-
-" visuals and line numbers
-set number relativenumber
 
 " toggle for line number (used for debugging)
 
 nnoremap ;ln :set number relativenumber!<Cr>
 
-augroup allgroup
-	autocmd! allgroup
-	autocmd FileType * let g:lightline = {
-				\ 'colorscheme': 'one',
-				\ 'active': {
-				\ 'right': [ [ 'lineinfo' ],
-				\ [ 'percent' ] ]
-				\ },
-				\ }
-augroup end
+" window navigation
 
-" abbreviations
+nnoremap <C-h> <C-w><C-h>
+nnoremap <C-j> <C-w><C-j>
+nnoremap <C-k> <C-w><C-k>
+nnoremap <C-l> <C-w><C-l>
 
-source ~/.config/nvim/abbreviations.vim
+tnoremap <C-h> <C-\><C-n><C-w><C-h>
+tnoremap <C-j> <C-\><C-n><C-w><C-j>
+tnoremap <C-k> <C-\><C-n><C-w><C-k>
+tnoremap <C-l> <C-\><C-n><C-w><C-l>
 
-" nerdtree settings
+" get out of terminal mode with escape
+tnoremap <Esc> <C-\><C-n>
+tnoremap <C-w> <C-\><C-n><C-w>
 
-" let NERDTreeShowLineNumbers=0
-
-nnoremap <Tab> :NERDTreeToggle<Cr>
-
-augroup nerdtree
-	autocmd! nerdtree
-	autocmd FileType nerdtree setlocal nonumber norelativenumber 
-	autocmd FileType nerdtree highlight EndOfBuffer ctermfg=235 ctermbg=235 guifg=235 guibg=235
-	autocmd FileType nerdtree highlight CursorLine cterm=NONE ctermbg=237term=NONE  guibg=237
-augroup end
-
-" calendar
-" ;cal to enter, pressing q exits
-nnoremap ;cal :Calendar -view=year -split=vertical -width=27<Cr>
-
-
-" exiting goyo won't reset line number colors
-
-function! s:goyo_leave()
-	source ~/.config/nvim/highlight.vim
-endfunction
-
-
-autocmd! User GoyoLeave nested call <SID>goyo_leave()
-
-" Change cursor shape between insert and normal mode in iTerm2.app
-if $TERM_PROGRAM =~ "iTerm"
-    let &t_SI = "\<Esc>]50;CursorShape=1\x7" " Vertical bar in insert mode
-    let &t_EI = "\<Esc>]50;CursorShape=0\x7" " Block in normal mode
-endif
-
-" Disables Automatic Line Numbering
-autocmd Filetype * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
-
-
-" goyo
-let g:goyo_height=92
-let g:goyo_width=95
-map <silent> ;w :Goyo \| set linebreak<Cr>
 
 " rebind beginning and end of lines
 
@@ -207,10 +204,21 @@ nnoremap ^ <nop>
 nnoremap j gj
 nnoremap k gk
 
-inoremap ;; <Esc>/<++><Enter>"_c4l
-nnoremap ;; /<++><Enter>"_c4l
+inoremap <silent> ;; <Esc>:call search("<++>")<Enter>"_c4l
+nnoremap <silent> ;; :call search("<++>")<Enter>"_c4l
 
-" spelling
+" }}}
+" {{{ plugin keybindings 
+
+" goyo
+map <silent> ;w :Goyo \| set linebreak<Cr>
+
+" sideways.vim keybindings
+nnoremap <S-Left> :SidewaysLeft<cr>
+nnoremap <S-Right> :SidewaysRight<cr>
+
+" }}}
+"{{{ spelling
 
 set nospell
 
@@ -221,16 +229,12 @@ highlight SpellCap ctermfg=LightBlue guifg=LightBlue ctermbg=NONE guibg=NONE gui
 
 inoremap <C-l> <c-g>u<Esc>[s1z=`]a<c-g>u
 
+"ctrl-s to jump back to last spelling mistake, open spelling menu
 
-let g:vimtex_mappings_enabled=0
-let g:vimtex_compiler_latexmk_engines= {
-			\ 'xelatex': '-xelatex',
-			\ }
-let g:vimtex_view_method ='skim'
-let g:vimtex_view_automatic=1
-let g:vimtex_view_skim_activate=1
-
-" templates
+inoremap <C-s> <Esc>ms[sea<C-x>s
+inoremap <C-y> <C-y><Esc>`sa
+"}}}
+"{{{ templates
 
 if has ("autocmd")
 	augroup templates
@@ -240,13 +244,78 @@ if has ("autocmd")
 	augroup end
 endif
 
+" }}}
+"{{{ nerdtree settings
 
-nnoremap ;tde A<Space><C-r>=substitute(&commentstring, '%s', '', 'g')<Cr>TODO<Space><Space>(<C-r>=strftime("\%Y-\%m-\%d")<Cr>)<Esc>TOa
-nnoremap ;tdl A<C-r>=substitute(&commentstring, '%s', '', 'g')<Cr>TODO<Space><Space>(<C-r>=strftime("\%Y-\%m-\%d")<Cr>)<Esc>TOa
+" let NERDTreeShowLineNumbers=0
 
-"python
+
+fun! ToggleNERDTreeWithRefresh()
+    :NERDTreeToggle 
+    if(exists("b:NERDTreeType") == 1)
+        call feedkeys("R")  
+    endif   
+endf 
+
+nnoremap <silent> <Tab> :call ToggleNERDTreeWithRefresh()<Cr>
+
+augroup nerdtree
+	autocmd! nerdtree
+	autocmd FileType nerdtree setlocal nonumber norelativenumber 
+	autocmd FileType nerdtree highlight EndOfBuffer ctermfg=235 ctermbg=235 guifg=235 guibg=235
+	autocmd FileType nerdtree highlight CursorLine cterm=NONE ctermbg=237term=NONE  guibg=237
+augroup end
+
+"}}}
+"{{{ goyo settings
+
+" exiting goyo won't reset line number colors
+
+function! s:goyo_leave()
+	source ~/.config/nvim/highlight.vim
+endfunction
+
+
+autocmd! User GoyoLeave nested call <SID>goyo_leave()
+
+" goyo
+let g:goyo_height=92
+let g:goyo_width=95
+
+
+"}}}
+" {{{ lightline settings
+
+augroup allgroup
+	autocmd! allgroup
+	autocmd FileType * let g:lightline = {
+				\ 'colorscheme': 'one',
+				\ 'active': {
+				\ 'right': [ [ 'lineinfo' ],
+				\ [ 'percent' ] ]
+				\ },
+				\ }
+augroup end 
+
+
+" }}}
+" {{{ latex
+
+let g:vimtex_mappings_enabled=0
+let g:vimtex_compiler_latexmk_engines= {
+			\ 'xelatex': '-xelatex',
+			\ }
+let g:vimtex_view_method ='skim'
+let g:vimtex_view_automatic=1
+let g:vimtex_view_skim_activate=1
+
+
+"}}}
+"{{{ python
 
 " Neomake 
+
+let g:neomake_python_python_exe = 'python3'
 
 " Run linter on write
 call neomake#configure#automake('nw', 750)
@@ -290,8 +359,6 @@ let g:deoplete#enable_smart_case = 1
 " complete with words from any opened file
 let g:context_filetype#same_filetypes = {}
 let g:context_filetype#same_filetypes._ = '_'
-set completeopt+=noinsert
-set completeopt-=preview
 
 " python indentation
 
@@ -323,8 +390,8 @@ augroup pythonrepl
 	autocmd! pythonrepl
 	autocmd FileType python nmap <silent> \rf ms:Repl<Cr>:SendHere<Cr><C-w><C-p>`s
 	autocmd FileType python nmap <silent> \rr :w<Cr>:!python3 %<Cr>
-    autocmd FileType python nmap <silent> \ri :execute "below sp <bar> term python3 -i %"<Cr>
-    autocmd FileType python nmap <silent> \rq :bdelete! term<Cr>
+	autocmd FileType python nmap <silent> \ri :execute "below sp <bar> term python3 -i %"<Cr>:SendHere<Cr>
+	autocmd FileType python nmap <silent> \rq :bdelete! term<Cr>
 augroup end
 
 function! ClosePyRepl()
@@ -333,62 +400,30 @@ function! ClosePyRepl()
     endif
 endfunction
 
-au TermOpen * setlocal nonumber norelativenumber
 
-" get out of terminal mode with escape
-tnoremap <Esc> <C-\><C-n>
-tnoremap <C-w> <C-\><C-n><C-w>
+"}}}
+"{{{ r
 
-" jump to 'current paragraph' or next paragraph
+autocmd BufEnter *.R,*.Rmd call ncm2#disable_for_buffer()
 
-" '^\w\(.#\)\@!' will jump past any comments at beginning of line
-" tnoremap <silent> ;d <C-\><C-n><C-w><C-p><Esc>`s}:call search('^\w\(.#\)\@!')<Cr>
-" tnoremap ;l <C-\><C-n><C-w><C-p><Esc>`s
+set shortmess+=c
 
+let g:ncm2#complete_delay = 120
 
-"global replace operator
-nnoremap <silent> ** :set operatorfunc=<SID>ReplaceOperator<Cr>g@
-vnoremap <silent> ** :<C-u>call <SID>ReplaceOperator(visualmode())<Cr>
-
-function! s:ReplaceOperator(type)
-	let saved_unnamed_register = @@
-	if a:type ==# 'char'
-		normal! `[v`]y
-	elseif a:type ==# 'v'
-		normal! `<v`>y
-	else
-		return
-	endif
-	call feedkeys(":%s/" . escape(@@, '/.~^*') . "//g\<Left>\<Left>")
-
-	let @@ = saved_unnamed_register 
-endfunction
-
-" window navigation
-
-nnoremap <C-h> <C-w><C-h>
-nnoremap <C-j> <C-w><C-j>
-nnoremap <C-k> <C-w><C-k>
-nnoremap <C-l> <C-w><C-l>
-
-tnoremap <C-h> <C-\><C-n><C-w><C-h>
-tnoremap <C-j> <C-\><C-n><C-w><C-j>
-tnoremap <C-k> <C-\><C-n><C-w><C-k>
-tnoremap <C-l> <C-\><C-n><C-w><C-l>
+" disable nvim-r things
+let R_assign=0
+let R_user_maps_only=0
 
 
-" transcription
-command! -nargs=1 -complete=file Transcribe call execute("below 6sp | term mpv --input-file=~/.config/mpv/mpvfifo " . fnameescape(<q-args>))
+"}}}
+"{{{ transcription
 
-augroup transcribe
-	autocmd! transcribe
-	autocmd BufNew,BufNewFile *transcript.md nnoremap <silent> <Cr> :silent execute "!echo 'keypress p' > ~/.config/mpv/mpvfifo"<Cr>
-	autocmd BufNew,BufNewFile *transcript.md nnoremap <silent> = :silent execute "!echo 'seek 4' > ~/.config/mpv/mpvfifo"<Cr>
-	autocmd BufNew,BufNewFile *transcript.md nnoremap <silent> - :silent execute "!echo 'seek -4' > ~/.config/mpv/mpvfifo"<Cr>
-augroup end
 
-" find highlighting group under cursor
+" command! -nargs=1 -complete=file Transcribe call execute("below 6sp | term mpv --input-file=~/.config/mpv/mpvfifo " . fnameescape(<q-args>))
 
-map <F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
-\ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
-\ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
+" nnoremap <silent> <Cr> :silent execute "!echo 'keypress p' > ~/.config/mpv/mpvfifo"<Cr>
+" nnoremap <silent> = :silent execute "!echo 'seek 4' > ~/.config/mpv/mpvfifo"<Cr>
+" nnoremap <silent> - :silent execute "!echo 'seek -4' > ~/.config/mpv/mpvfifo"<Cr>
+
+
+"}}}

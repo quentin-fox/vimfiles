@@ -11,6 +11,17 @@ let g:pandoc#keyboard#use_default_mappings=0
 let g:SuperTabCrMapping=1
 let R_start_libs = 'base,stats,graphics,grDevices,utils,methods,tidyverse'
 
+" indent options
+
+set tabstop=2
+set softtabstop=2
+set shiftwidth=2
+set textwidth=100
+set expandtab
+set autoindent
+set fileformat=unix
+let r_indent_align_args = 0
+
 " make nvim-r console plain
 let Rout_more_colors=0
 let R_hl_term=0
@@ -49,3 +60,6 @@ nnoremap ;as {jI<Space><-<Space><Esc>0i
 inoremap ;as <Esc>{jI<Space><-<Space><Esc>0i
 
 nnoremap ;sm }kA<Space>%>%<Space>summary()<Esc>
+
+nmap <LocalLeader>rf <Plug>RStart <bar> :call ncm2#enable_for_buffer()<Cr>
+nmap <LocalLeader>rq <Plug>RClose <bar> :call ncm2#disable_for_buffer()<Cr>
