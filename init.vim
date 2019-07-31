@@ -414,8 +414,12 @@ let g:ncm2#complete_delay = 120
 let R_assign=0
 let R_user_maps_only=0
 
+" text object for chunk
 
-"}}}
+onoremap ac :<c-u>execute "normal ?^```{\rmc/^```\r:nohlsearch\rV`c"<Cr>
+onoremap ic :<c-u>execute "normal ?^```{\rjmc/^```\r:nohlsearch\rkV`c"<Cr>
+
+" }}}
 "{{{ transcription
 
 
