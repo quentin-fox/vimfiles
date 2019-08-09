@@ -5,7 +5,6 @@
  " |_| |_| |_| |_|  \__| (_)   \_/   |_| |_| |_| |_|
  "                                                  
 
-
 " {{{ plugins
 set nocompatible              " be iMproved, required
 filetype off                  " required 
@@ -32,9 +31,11 @@ Plugin 'triglav/vim-visual-increment'
 Plugin 'AndrewRadev/sideways.vim'
 Plugin 'junegunn/fzf.vim'
 Plugin 'easymotion/vim-easymotion' 
+Plugin 'junegunn/vim-easy-align'
+Plugin 'jreybert/vimagit'
 
 " nerdtree
-Plugin 'scrooloose/nerdtree'
+" Plugin 'scrooloose/nerdtree'
 
 " colorschemes
 
@@ -71,6 +72,9 @@ Plugin 'HiPhish/repl.nvim'
 Plugin 'mtikekar/nvim-send-to-term'
 Plugin 'jeetsukumaran/vim-pythonsense'
 
+" html
+Plugin 'alvan/vim-closetag'
+Plugin 'Glench/Vim-Jinja2-Syntax'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -116,6 +120,8 @@ au TermOpen * setlocal nonumber norelativenumber
 
 "fzf
 set rtp+=/usr/local/opt/fzf
+nnoremap <silent> <Tab> :FZF<Cr>
+nnoremap <silent> <S-Tab> :Lines<Cr>
 
 " completion
 
@@ -127,6 +133,19 @@ let g:SuperTabDefaultCompletionType = "<C-x><C-o>"
 
 set termguicolors
 " set background=dark
+
+" change dropdown colors
+
+function! MyHighlights() abort
+    highlight Pmenu ctermfg=DarkGrey ctermbg=235 guifg=DarkGrey guibg=237
+    highlight PmenuSel ctermfg=16 ctermbg=DarkGrey guifg=16 guibg=DarkGrey
+endfunction
+
+augroup MyColors
+    autocmd!
+    autocmd ColorScheme * call MyHighlights()
+augroup end
+
 colorscheme Apprentice
 
 
@@ -217,6 +236,11 @@ map <silent> ;w :Goyo \| set linebreak<Cr>
 nnoremap <S-Left> :SidewaysLeft<cr>
 nnoremap <S-Right> :SidewaysRight<cr>
 
+" vim-easy-align keybindings
+
+xmap ga <Plug>(EasyAlign)
+nmap ga <Plug>(EasyAlign)
+
 " }}}
 "{{{ spelling
 
@@ -250,21 +274,21 @@ endif
 " let NERDTreeShowLineNumbers=0
 
 
-fun! ToggleNERDTreeWithRefresh()
-    :NERDTreeToggle 
-    if(exists("b:NERDTreeType") == 1)
-        call feedkeys("R")  
-    endif   
-endf 
+" fun! ToggleNERDTreeWithRefresh()
+"     :NERDTreeToggle 
+"     if(exists("b:NERDTreeType") == 1)
+"         call feedkeys("R")  
+"     endif   
+" endf 
 
-nnoremap <silent> <Tab> :call ToggleNERDTreeWithRefresh()<Cr>
+" nnoremap <silent> <Tab> :call ToggleNERDTreeWithRefresh()<Cr>
 
-augroup nerdtree
-	autocmd! nerdtree
-	autocmd FileType nerdtree setlocal nonumber norelativenumber 
-	autocmd FileType nerdtree highlight EndOfBuffer ctermfg=235 ctermbg=235 guifg=235 guibg=235
-	autocmd FileType nerdtree highlight CursorLine cterm=NONE ctermbg=237term=NONE  guibg=237
-augroup end
+" augroup nerdtree
+" 	autocmd! nerdtree
+" 	autocmd FileType nerdtree setlocal nonumber norelativenumber 
+" 	autocmd FileType nerdtree highlight EndOfBuffer ctermfg=235 ctermbg=235 guifg=235 guibg=235
+" 	autocmd FileType nerdtree highlight CursorLine cterm=NONE ctermbg=237term=NONE  guibg=237
+" augroup end
 
 "}}}
 "{{{ goyo settings
@@ -364,6 +388,8 @@ let g:context_filetype#same_filetypes._ = '_'
 
 let g:python_pep8_indent_hang_closing=0
 
+call deoplete#custom#option('auto_complete_delay', 200)
+
 " Jedi-vim 
 
 " Disable autocompletion (using deoplete instead)
@@ -400,6 +426,13 @@ function! ClosePyRepl()
     endif
 endfunction
 
+"}}}
+"{{{ flask
+
+" shortcut for run
+
+nnoremap <Bar> :w<Cr>:!flask run<Cr>
+
 
 "}}}
 "{{{ r
@@ -413,11 +446,6 @@ let g:ncm2#complete_delay = 120
 " disable nvim-r things
 let R_assign=0
 let R_user_maps_only=0
-
-" text object for chunk
-
-onoremap ac :<c-u>execute "normal ?^```{\rmc/^```\r:nohlsearch\rV`c"<Cr>
-onoremap ic :<c-u>execute "normal ?^```{\rjmc/^```\r:nohlsearch\rkV`c"<Cr>
 
 " }}}
 "{{{ transcription

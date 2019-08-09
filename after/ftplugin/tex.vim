@@ -1,11 +1,10 @@
 " highlighting
 
-set spell!
 source ~/.config/nvim/highlight.vim
 
 " snippets
-nnoremap ;count :w<Cr>:!texcount %<Cr>
-set spell
+command Texcount call execute("!texcount %")
+set nospell
 inoremap ;fn \footnote{}<++><Esc>?}<Enter>i
 inoremap ;ct \citet{}<++><Esc>?}<Enter>i
 inoremap ;cp \citep{}<++><Esc>?}<Enter>i

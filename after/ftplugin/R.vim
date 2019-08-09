@@ -63,3 +63,16 @@ nnoremap ;sm }kA<Space>%>%<Space>summary()<Esc>
 
 nmap <LocalLeader>rf <Plug>RStart <bar> :call ncm2#enable_for_buffer()<Cr>
 nmap <LocalLeader>rq <Plug>RClose <bar> :call ncm2#disable_for_buffer()<Cr>
+
+
+" text object for chunk
+
+"" a chunk
+onoremap <silent> ac :<c-u>execute "normal ?^```{\rmc/^```\r:nohlsearch\rV`c"<Cr>
+"" in chunk
+onoremap <silent> ic :<c-u>execute "normal ?^```{\rjmc/^```\r:nohlsearch\rkV`c"<Cr>
+"" chunk options (after first comma to the }
+onoremap <silent> co :<c-u>execute "normal ?\\(^```{.*\\)\\@<=,.*\\(}\\)\\@=\r:nohlsearch\rgn"<Cr>
+"" chunk name (from first { to the first comma
+onoremap <silent> cn :<c-u>execute "normal ?\\(^```{r \\)\\@<=.*\\(,\\=.*}\\)\\@=\r:nohlsearch\rgn"<Cr>
+
