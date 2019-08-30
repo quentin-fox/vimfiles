@@ -6,6 +6,11 @@ set expandtab
 set autoindent
 set fileformat=unix
 
+" code folding options
+set foldmethod=indent
+set foldnestmax=2
+nnoremap <Space> za
+
 " clear empty spaces at the end of lines on save of python files
 autocmd BufWritePre *.py :%s/\s\+$//e
 

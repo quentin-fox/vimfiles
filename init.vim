@@ -32,7 +32,7 @@ Plugin 'AndrewRadev/sideways.vim'
 Plugin 'junegunn/fzf.vim'
 Plugin 'easymotion/vim-easymotion' 
 Plugin 'junegunn/vim-easy-align'
-Plugin 'jreybert/vimagit'
+Plugin 'severin-lemaignan/vim-minimap'
 
 " nerdtree
 " Plugin 'scrooloose/nerdtree'
@@ -72,9 +72,11 @@ Plugin 'HiPhish/repl.nvim'
 Plugin 'mtikekar/nvim-send-to-term'
 Plugin 'jeetsukumaran/vim-pythonsense'
 
-" html
+" web development
 Plugin 'alvan/vim-closetag'
 Plugin 'Glench/Vim-Jinja2-Syntax'
+Plugin 'jelera/vim-javascript-syntax'
+Plugin 'othree/javascript-libraries-syntax.vim'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -96,6 +98,11 @@ set inccommand=nosplit
 set ignorecase
 set smartcase
 nnoremap <silent> ;<Enter> :nohlsearch<Cr>
+
+" disable line wrap
+set textwidth=0
+set wrap
+set nolist
 
 
 " conceal
@@ -225,6 +232,13 @@ nnoremap k gk
 
 inoremap <silent> ;; <Esc>:call search("<++>")<Enter>"_c4l
 nnoremap <silent> ;; :call search("<++>")<Enter>"_c4l
+
+function! BreakHere()
+	s/^\(\s*\)\(.\{-}\)\(\s*\)\(\%#\)\(\s*\)\(.*\)/\1\2\r\1\4\6
+	call histdel("/", -1)
+endfunction
+
+nnoremap <silent> K :<C-u>call BreakHere()<CR>
 
 " }}}
 " {{{ plugin keybindings 
@@ -431,7 +445,7 @@ endfunction
 
 " shortcut for run
 
-nnoremap <Bar> :w<Cr>:!flask run<Cr>
+nnoremap <Bar> :wa<Cr>:!flask run<Cr>
 
 
 "}}}
