@@ -30,12 +30,12 @@ let g:pandoc#command_use_message_buffers=0
 " mappings
 
 nnoremap ;vw :w<Cr>:Pandoc! pdf --pdf-engine=xelatex<Cr>
-nnoremap ;dx :w<Cr>:Pandoc! docx --reference-doc ~/Desktop/latex_resources/notes.docx<Cr>
-inoremap ;dm <Enter><Enter>$$  $$ {#eq:}<Enter><Enter><++><Esc>B2k3li
-inoremap ;im $$<++><Esc>4hi
-inoremap // \frac{}{<++>}<++><Esc>10hi
-inoremap ø <C-d>
-inoremap π <C-t>
+" nnoremap ;dx :w<Cr>:Pandoc! docx --reference-doc ~/Desktop/latex_resources/notes.docx<Cr>
+" inoremap ;dm <Enter><Enter>$$  $$ {#eq:}<Enter><Enter><++><Esc>B2k3li
+" inoremap ;im $$<++><Esc>4hi
+" inoremap // \frac{}{<++>}<++><Esc>10hi
+inoremap <C-o> <C-d>
+inoremap <C-p> <C-t>
 nnoremap ø <<
 nnoremap π >>
 setlocal tabstop=4

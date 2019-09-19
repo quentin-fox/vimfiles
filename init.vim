@@ -20,7 +20,7 @@ call vundle#begin()
 Plugin 'VundleVim/Vundle.vim'
 Plugin 'dkarter/bullets.vim'
 Plugin 'tpope/vim-surround'
-Plugin 'ervandew/supertab'
+" Plugin 'ervandew/supertab'
 Plugin 'junegunn/goyo.vim'
 Plugin 'tpope/vim-commentary'
 Plugin 'christoomey/vim-titlecase'
@@ -33,6 +33,8 @@ Plugin 'junegunn/fzf.vim'
 Plugin 'easymotion/vim-easymotion' 
 Plugin 'junegunn/vim-easy-align'
 Plugin 'severin-lemaignan/vim-minimap'
+Plugin 'michaeljsmith/vim-indent-object'
+Plugin 'tpope/vim-fugitive'
 
 " nerdtree
 " Plugin 'scrooloose/nerdtree'
@@ -42,6 +44,8 @@ Plugin 'severin-lemaignan/vim-minimap'
 Plugin 'andreypopp/vim-colors-plain'
 Plugin 'ayu-theme/ayu-vim'
 Plugin 'romainl/Apprentice'
+Plugin 'arzg/vim-corvine'
+Plugin 'NewProggie/NewProggie-Color-Scheme'
 
 " markdown
 Plugin 'godlygeek/tabular'
@@ -55,7 +59,6 @@ Plugin 'plasticboy/vim-markdown'
 Plugin 'ncm2/ncm2'
 Plugin 'roxma/nvim-yarp'
 Plugin 'jalvesaq/Nvim-R'
-Plugin 'chrisbra/csv.vim'
 Plugin 'gaalcaras/ncm-R'
 
 " latex
@@ -77,6 +80,9 @@ Plugin 'alvan/vim-closetag'
 Plugin 'Glench/Vim-Jinja2-Syntax'
 Plugin 'jelera/vim-javascript-syntax'
 Plugin 'othree/javascript-libraries-syntax.vim'
+
+" in development
+Plugin 'quentin-fox/vimtitles', { 'do': ':UpdateRemotePlugins' }
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -127,12 +133,13 @@ au TermOpen * setlocal nonumber norelativenumber
 
 "fzf
 set rtp+=/usr/local/opt/fzf
+nnoremap <C-i> <nop>
 nnoremap <silent> <Tab> :FZF<Cr>
 nnoremap <silent> <S-Tab> :Lines<Cr>
 
 " completion
 
-let g:SuperTabDefaultCompletionType = "<C-x><C-o>"
+" let g:SuperTabDefaultCompletionType = "<C-x><C-o>"
 
 
 " }}}
@@ -143,17 +150,11 @@ set termguicolors
 
 " change dropdown colors
 
-function! MyHighlights() abort
-    highlight Pmenu ctermfg=DarkGrey ctermbg=235 guifg=DarkGrey guibg=237
-    highlight PmenuSel ctermfg=16 ctermbg=DarkGrey guifg=16 guibg=DarkGrey
-endfunction
-
-augroup MyColors
-    autocmd!
-    autocmd ColorScheme * call MyHighlights()
-augroup end
-
 colorscheme Apprentice
+
+
+autocmd ColorScheme * highlight Pmenu ctermfg=DarkGrey ctermbg=None guifg=DarkGrey guibg=237
+autocmd ColorScheme * highlight PmenuSel ctermfg=16 ctermbg=DarkGrey guifg=16 guibg=DarkGrey
 
 
 " }}}
@@ -256,6 +257,10 @@ xmap ga <Plug>(EasyAlign)
 nmap ga <Plug>(EasyAlign)
 
 " }}}
+" {{{ utilisnips
+
+
+"}}}
 "{{{ spelling
 
 set nospell
@@ -445,7 +450,7 @@ endfunction
 
 " shortcut for run
 
-nnoremap <Bar> :wa<Cr>:!flask run<Cr>
+autocmd Filetype python nnoremap <Bar> :wa<Cr>:!flask run<Cr>
 
 
 "}}}
@@ -471,5 +476,20 @@ let R_user_maps_only=0
 " nnoremap <silent> = :silent execute "!echo 'seek 4' > ~/.config/mpv/mpvfifo"<Cr>
 " nnoremap <silent> - :silent execute "!echo 'seek -4' > ~/.config/mpv/mpvfifo"<Cr>
 
+
+"}}}
+"{{{ subtitles
+
+" let g:vimtitles_skip_amount=5
+
+" augroup subtitles
+"     autocmd! subtitles
+"     autocmd Filetype subtitle nnoremap <silent> - :execute "PlayerSeekBackward"<Cr>
+"     autocmd Filetype subtitle nnoremap <silent> = :execute "PlayerSeekForward"<Cr>
+"     autocmd Filetype subtitle nnoremap <silent> <Cr> :execute "PlayerCyclePause"<Cr>
+"     autocmd Filetype subtitle nnoremap <silent> <Bar> :execute "SetTimestamp"<Cr>
+"     autocmd Filetype subtitle nnoremap <silent> _ :execute "PlayerSeekByTimestamp"<Cr>
+"     autocmd Filetype subtitle nnoremap <silent> ;rs :execute "w <Bar> PlayerReloadSubs"<Cr>
+" augroup end
 
 "}}}
