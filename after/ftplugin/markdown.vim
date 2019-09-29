@@ -1,6 +1,6 @@
 " highlighting
 
-setlocal spell
+setlocal nospell
 source ~/.config/nvim/highlight.vim
 
 " pandoc options

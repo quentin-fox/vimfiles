@@ -36,6 +36,12 @@ Plugin 'severin-lemaignan/vim-minimap'
 Plugin 'michaeljsmith/vim-indent-object'
 Plugin 'tpope/vim-fugitive'
 
+" autocomplete
+Plugin 'roxma/nvim-yarp'
+Plugin 'ncm2/ncm2'
+Plugin 'ncm2/ncm2-path'
+" Plugin 'ncm2/ncm2-bufword'
+
 " nerdtree
 " Plugin 'scrooloose/nerdtree'
 
@@ -56,8 +62,6 @@ Plugin 'plasticboy/vim-markdown'
 
 " r
 " Plugin 'vim-pandoc/vim-rmarkdown'
-Plugin 'ncm2/ncm2'
-Plugin 'roxma/nvim-yarp'
 Plugin 'jalvesaq/Nvim-R'
 Plugin 'gaalcaras/ncm-R'
 
@@ -65,9 +69,9 @@ Plugin 'gaalcaras/ncm-R'
 Plugin 'lervag/vimtex'
 
 " python
-Plugin 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+" Plugin 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plugin 'Shougo/context_filetype.vim'
-Plugin 'zchee/deoplete-jedi', { 'do': ':UpdateRemotePlugins' }
+" Plugin 'zchee/deoplete-jedi', { 'do': ':UpdateRemotePlugins' }
 Plugin 'davidhalter/jedi-vim'
 Plugin 'neomake/neomake'
 Plugin 'Vimjas/vim-python-pep8-indent'
@@ -92,7 +96,9 @@ filetype plugin indent on    " required
 " {{{ basic setup
 
 syntax on
+
 set mouse=a
+
 set termencoding=utf-8 encoding=utf-8
 
 "persistent undo
@@ -128,6 +134,7 @@ if $TERM_PROGRAM =~ "iTerm"
 endif
 
 set completeopt+=noinsert
+set completeopt+=menuone
 set completeopt-=preview
 au TermOpen * setlocal nonumber norelativenumber
 
@@ -241,6 +248,15 @@ endfunction
 
 nnoremap <silent> K :<C-u>call BreakHere()<CR>
 
+" going to next/prev match will turn off the search highlights
+
+nnoremap <silent> n n<Esc>:nohl<Cr>
+nnoremap <silent> N N<Esc>:nohl<Cr>
+
+" align text with center after jumping to previous edit
+
+nnoremap <silent> g; g;zz
+
 " }}}
 " {{{ plugin keybindings 
 
@@ -257,10 +273,103 @@ xmap ga <Plug>(EasyAlign)
 nmap ga <Plug>(EasyAlign)
 
 " }}}
-" {{{ utilisnips
+" {{{ ncm2
+
+set shortmess+=c
+
+set pumheight=5
+
+" CTRL-C doesn't trigger the InsertLeave autocmd . map to <ESC> instead.
+inoremap <C-c> <Esc>
+
+" When the <Enter> key is pressed while the popup menu is visible, it only
+" hides the menu. Use this mapping to close the menu and also start a new
+" line.
+inoremap <expr> <CR> (pumvisible() ? "\<c-y>" : "\<CR>")
+
+" Use <TAB> to select the popup menu:
+inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+
+autocmd BufEnter *.R,*.Rmd call ncm2#disable_for_buffer()
+autocmd BufEnter *.py, call ncm2#enable_for_buffer()
+
+let ncm2#popup_delay = 200
+let ncm2#complete_length = [[1, 1]]
+
+let g:ncm2#matcher = 'substrfuzzy'
+
+augroup my_cm_setup
+  autocmd!
+  autocmd BufEnter *.tex call ncm2#enable_for_buffer()
+  autocmd Filetype tex call ncm2#register_source({
+          \ 'name' : 'vimtex-cmds',
+          \ 'priority': 8,
+          \ 'complete_length': -1,
+          \ 'scope': ['tex'],
+          \ 'matcher': {'name': 'prefix', 'key': 'word'},
+          \ 'word_pattern': '\w+',
+          \ 'complete_pattern': g:vimtex#re#ncm2#cmds,
+          \ 'on_complete': ['ncm2#on_complete#omni', 'vimtex#complete#omnifunc'],
+          \ })
+  autocmd Filetype tex call ncm2#register_source({
+          \ 'name' : 'vimtex-labels',
+          \ 'priority': 8,
+          \ 'complete_length': -1,
+          \ 'scope': ['tex'],
+          \ 'matcher': {'name': 'combine',
+          \             'matchers': [
+          \               {'name': 'substr', 'key': 'word'},
+          \               {'name': 'substr', 'key': 'menu'},
+          \             ]},
+          \ 'word_pattern': '\w+',
+          \ 'complete_pattern': g:vimtex#re#ncm2#labels,
+          \ 'on_complete': ['ncm2#on_complete#omni', 'vimtex#complete#omnifunc'],
+          \ })
+  autocmd Filetype tex call ncm2#register_source({
+          \ 'name' : 'vimtex-files',
+          \ 'priority': 8,
+          \ 'complete_length': -1,
+          \ 'scope': ['tex'],
+          \ 'matcher': {'name': 'combine',
+          \             'matchers': [
+          \               {'name': 'abbrfuzzy', 'key': 'word'},
+          \               {'name': 'abbrfuzzy', 'key': 'abbr'},
+          \             ]},
+          \ 'word_pattern': '\w+',
+          \ 'complete_pattern': g:vimtex#re#ncm2#files,
+          \ 'on_complete': ['ncm2#on_complete#omni', 'vimtex#complete#omnifunc'],
+          \ })
+  autocmd Filetype tex call ncm2#register_source({
+          \ 'name' : 'bibtex',
+          \ 'priority': 8,
+          \ 'complete_length': -1,
+          \ 'scope': ['tex'],
+          \ 'matcher': {'name': 'combine',
+          \             'matchers': [
+          \               {'name': 'prefix', 'key': 'word'},
+          \               {'name': 'abbrfuzzy', 'key': 'abbr'},
+          \               {'name': 'abbrfuzzy', 'key': 'menu'},
+          \             ]},
+          \ 'word_pattern': '\w+',
+          \ 'complete_pattern': g:vimtex#re#ncm2#bibtex,
+          \ 'on_complete': ['ncm2#on_complete#omni', 'vimtex#complete#omnifunc'],
+          \ })
+augroup END
 
 
 "}}}
+" {{{ jedi
+
+let g:jedi#auto_initialization = 1
+let g:jedi#completions_enabled = 0
+let g:jedi#auto_vim_configuration = 0
+let g:jedi#smart_auto_mappings = 0
+let g:jedi#popup_on_dot = 0
+let g:jedi#completions_command = ""
+let g:jedi#show_call_signatures = "1"
+
+" }}}
 "{{{ spelling
 
 set nospell
@@ -390,37 +499,37 @@ let g:neomake_virtualtext_current_error = 1
 
 " Use deoplete only for python
 
-augroup pythoncomplete
-    autocmd! pythoncomplete
-    autocmd FileType python call deoplete#enable()
-    autocmd BufEnter *.py call deoplete#enable()        
-    autocmd BufLeave *.py call deoplete#disable()        
-augroup end
+" augroup pythoncomplete
+"     autocmd! pythoncomplete
+"     autocmd FileType python call deoplete#enable()
+"     autocmd BufEnter *.py call deoplete#enable()        
+"     autocmd BufLeave *.py call deoplete#disable()        
+" augroup end
 
-let g:deoplete#enable_ignore_case = 1
-let g:deoplete#enable_smart_case = 1
-" complete with words from any opened file
-let g:context_filetype#same_filetypes = {}
-let g:context_filetype#same_filetypes._ = '_'
+" let g:deoplete#enable_ignore_case = 1
+" let g:deoplete#enable_smart_case = 1
+" " complete with words from any opened file
+" let g:context_filetype#same_filetypes = {}
+" let g:context_filetype#same_filetypes._ = '_'
 
 " python indentation
 
 let g:python_pep8_indent_hang_closing=0
 
-call deoplete#custom#option('auto_complete_delay', 200)
+" call deoplete#custom#option('auto_complete_delay', 200)
 
 " Jedi-vim 
 
 " Disable autocompletion (using deoplete instead)
-let g:jedi#completions_enabled = 0
+" let g:jedi#completions_enabled = 0
 
 " All these mappings work only for python code:
 " Go to definition
-let g:jedi#goto_command = ',d'
+" let g:jedi#goto_command = ',d'
 " Find ocurrences
-let g:jedi#usages_command = ',o'
+" let g:jedi#usages_command = ',o'
 " Find assignments
-let g:jedi#goto_assignments_command = ',a'
+" let g:jedi#goto_assignments_command = ',a'
 " Go to definition in new tab
 " nmap ,D :tab split<CR>:call jedi#goto()<CR>
 
@@ -456,11 +565,6 @@ autocmd Filetype python nnoremap <Bar> :wa<Cr>:!flask run<Cr>
 "}}}
 "{{{ r
 
-autocmd BufEnter *.R,*.Rmd call ncm2#disable_for_buffer()
-
-set shortmess+=c
-
-let g:ncm2#complete_delay = 120
 
 " disable nvim-r things
 let R_assign=0
@@ -478,18 +582,27 @@ let R_user_maps_only=0
 
 
 "}}}
-"{{{ subtitles
+" {{{ custom functions
 
-" let g:vimtitles_skip_amount=5
 
-" augroup subtitles
-"     autocmd! subtitles
-"     autocmd Filetype subtitle nnoremap <silent> - :execute "PlayerSeekBackward"<Cr>
-"     autocmd Filetype subtitle nnoremap <silent> = :execute "PlayerSeekForward"<Cr>
-"     autocmd Filetype subtitle nnoremap <silent> <Cr> :execute "PlayerCyclePause"<Cr>
-"     autocmd Filetype subtitle nnoremap <silent> <Bar> :execute "SetTimestamp"<Cr>
-"     autocmd Filetype subtitle nnoremap <silent> _ :execute "PlayerSeekByTimestamp"<Cr>
-"     autocmd Filetype subtitle nnoremap <silent> ;rs :execute "w <Bar> PlayerReloadSubs"<Cr>
-" augroup end
+function! DeWindows()
+  " 'e' flag prevents errors from being displayed 
+  execute '%s///ge'
+  execute "%s/‘\|’/'/ge"
+  execute '%s/“\|”/"/ge'
+  execute '%s/…/.../ge'
+  execute '%s/–/-/ge'
+  execute '%s/—/--/ge'
+  echom 'Converted windows characters to UNIX versions.'
+endfunction
 
-"}}}
+function! SentenceToLine()
+	silent execute '%s/\. \([A-Z]\)/.\r\1/g'
+endfunction
+
+function! LatexQuotes()
+	silent execute "%s/“/``/g"
+	silent execute "%s/”/''/g" 
+endfunction
+	
+" }}}
