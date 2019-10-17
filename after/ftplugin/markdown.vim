@@ -32,8 +32,9 @@ let g:pandoc#command_use_message_buffers=0
 nnoremap ;vw :w<Cr>:Pandoc! pdf --pdf-engine=xelatex<Cr>
 " nnoremap ;dx :w<Cr>:Pandoc! docx --reference-doc ~/Desktop/latex_resources/notes.docx<Cr>
 " inoremap ;dm <Enter><Enter>$$  $$ {#eq:}<Enter><Enter><++><Esc>B2k3li
+inoremap ;dm <Enter><Enter>$$  $$<Enter><Enter><++><Esc>B2k3li
 " inoremap ;im $$<++><Esc>4hi
-" inoremap // \frac{}{<++>}<++><Esc>10hi
+inoremap // \frac{}{<++>}<++><Esc>10hi
 inoremap <C-o> <C-d>
 inoremap <C-p> <C-t>
 nnoremap ø <<

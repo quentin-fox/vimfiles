@@ -39,7 +39,7 @@ Plugin 'tpope/vim-fugitive'
 " autocomplete
 Plugin 'roxma/nvim-yarp'
 Plugin 'ncm2/ncm2'
-Plugin 'ncm2/ncm2-path'
+" Plugin 'ncm2/ncm2-path'
 " Plugin 'ncm2/ncm2-bufword'
 
 " nerdtree
@@ -75,16 +75,14 @@ Plugin 'Shougo/context_filetype.vim'
 Plugin 'davidhalter/jedi-vim'
 Plugin 'neomake/neomake'
 Plugin 'Vimjas/vim-python-pep8-indent'
-Plugin 'HiPhish/repl.nvim'
-Plugin 'mtikekar/nvim-send-to-term'
+Plugin 'rhysd/reply.vim'
 Plugin 'jeetsukumaran/vim-pythonsense'
 
 " web development
 Plugin 'alvan/vim-closetag'
 Plugin 'Glench/Vim-Jinja2-Syntax'
 Plugin 'jelera/vim-javascript-syntax'
-Plugin 'othree/javascript-libraries-syntax.vim'
-
+Plugin 'othree/javascript-libraries-syntax.vim' 
 " in development
 Plugin 'quentin-fox/vimtitles', { 'do': ':UpdateRemotePlugins' }
 
@@ -143,6 +141,39 @@ set rtp+=/usr/local/opt/fzf
 nnoremap <C-i> <nop>
 nnoremap <silent> <Tab> :FZF<Cr>
 nnoremap <silent> <S-Tab> :Lines<Cr>
+
+" open fzf in floating window
+
+" let $FZF_DEFAULT_OPTS = '--layout=reverse'
+
+function! OpenFloatingWin()
+	let height = &lines - 3
+	let width = float2nr(&columns - (&columns * 2 / 10))
+	let col = float2nr((&columns - width) / 2)
+
+	let opts = {
+		\ 'relative': 'editor',
+		\ 'row': height * 0.3,
+		\ 'col': col + 30,
+		\ 'width': width * 2 / 3,
+		\ 'height': height / 2
+		\ }
+
+	let buf = nvim_create_buf(v:false, v:true)
+	let win = nvim_open_win(buf, v:true, opts)
+
+	"Set Floating Window Highlighting
+	call setwinvar(win, '&winhl', 'Normal:Pmenu')
+
+	setlocal
+		\ buftype=nofile
+		\ nobuflisted
+		\ bufhidden=hide
+		\ nonumber
+		\ norelativenumber
+		\ signcolumn=no
+
+endfunction
 
 " completion
 
@@ -250,12 +281,17 @@ nnoremap <silent> K :<C-u>call BreakHere()<CR>
 
 " going to next/prev match will turn off the search highlights
 
-nnoremap <silent> n n<Esc>:nohl<Cr>
-nnoremap <silent> N N<Esc>:nohl<Cr>
+" nnoremap <silent> n n<Esc>:nohl<Cr>
+" nnoremap <silent> N N<Esc>:nohl<Cr>
+
 
 " align text with center after jumping to previous edit
 
 nnoremap <silent> g; g;zz
+
+" source the current file
+
+nnoremap ;src :source %<Cr>
 
 " }}}
 " {{{ plugin keybindings 
@@ -291,8 +327,9 @@ inoremap <expr> <CR> (pumvisible() ? "\<c-y>" : "\<CR>")
 inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 
-autocmd BufEnter *.R,*.Rmd call ncm2#disable_for_buffer()
-autocmd BufEnter *.py, call ncm2#enable_for_buffer()
+autocmd BufEnter * call ncm2#disable_for_buffer()
+" autocmd BufEnter *.py, call ncm2#enable_for_buffer()
+
 
 let ncm2#popup_delay = 200
 let ncm2#complete_length = [[1, 1]]
@@ -367,7 +404,7 @@ let g:jedi#auto_vim_configuration = 0
 let g:jedi#smart_auto_mappings = 0
 let g:jedi#popup_on_dot = 0
 let g:jedi#completions_command = ""
-let g:jedi#show_call_signatures = "1"
+let g:jedi#show_call_signatures = "2"
 
 " }}}
 "{{{ spelling
@@ -472,10 +509,11 @@ let g:neomake_python_python_exe = 'python3'
 " Run linter on write
 call neomake#configure#automake('nw', 750)
 
+
 augroup neomakeft
 	autocmd! neomakeft
 	autocmd BufEnter * silent NeomakeDisableBuffer
-	autocmd BufEnter *.py silent NeomakeEnableBuffer
+	autocmd BufEnter *.py,*.srt silent NeomakeEnableBuffer
 augroup end
 
 let g:neomake_error_sign = {'text': '>', 'texthl': 'NeomakeErrorSign'}
@@ -501,6 +539,7 @@ let g:neomake_virtualtext_current_error = 1
 
 " augroup pythoncomplete
 "     autocmd! pythoncomplete
+
 "     autocmd FileType python call deoplete#enable()
 "     autocmd BufEnter *.py call deoplete#enable()        
 "     autocmd BufLeave *.py call deoplete#disable()        
@@ -539,13 +578,16 @@ let g:is_pythonsense_suppress_object_keymaps = 0
 let g:is_pythonsense_suppress_motion_keymaps = 1
 let g:is_pythonsense_suppress_location_keymaps = 1
 
+" repl settings
+
 
 augroup pythonrepl
 	autocmd! pythonrepl
-	autocmd FileType python nmap <silent> \rf ms:Repl<Cr>:SendHere<Cr><C-w><C-p>`s
+	autocmd FileType python nmap <silent> \rf ms:Repl python<Cr>:SendHere<Cr><C-w><C-p>`s
 	autocmd FileType python nmap <silent> \rr :w<Cr>:!python3 %<Cr>
 	autocmd FileType python nmap <silent> \ri :execute "below sp <bar> term python3 -i %"<Cr>:SendHere<Cr>
 	autocmd FileType python nmap <silent> \rq :bdelete! term<Cr>
+	autocmd FileType python nnoremap s 
 augroup end
 
 function! ClosePyRepl()
@@ -574,12 +616,23 @@ let R_user_maps_only=0
 "{{{ transcription
 
 
-" command! -nargs=1 -complete=file Transcribe call execute("below 6sp | term mpv --input-file=~/.config/mpv/mpvfifo " . fnameescape(<q-args>))
+command! -nargs=1 -complete=file Transcribe call execute("below 6sp | term mpv --input-file=~/.config/mpv/mpvfifo " . fnameescape(<q-args>))
 
-" nnoremap <silent> <Cr> :silent execute "!echo 'keypress p' > ~/.config/mpv/mpvfifo"<Cr>
-" nnoremap <silent> = :silent execute "!echo 'seek 4' > ~/.config/mpv/mpvfifo"<Cr>
-" nnoremap <silent> - :silent execute "!echo 'seek -4' > ~/.config/mpv/mpvfifo"<Cr>
+nnoremap <silent> <Cr> :silent execute "!echo 'keypress p' > ~/.config/mpv/mpvfifo"<Cr>
+nnoremap <silent> = :silent execute "!echo 'seek 4' > ~/.config/mpv/mpvfifo"<Cr>
+nnoremap <silent> - :silent execute "!echo 'seek -4' > ~/.config/mpv/mpvfifo"<Cr>
 
+
+"}}}
+"{{{ subtitles
+
+let g:neomake_subtitle_srt_maker = {
+			\ 'exe': 'srt',
+			\ 'args': ['lint'],
+			\ 'errorformat': 'error: %m near line: %l',
+			\ }
+
+let g:neomake_subtitle_enabled_makers = ['srt']
 
 "}}}
 " {{{ custom functions
@@ -597,12 +650,13 @@ function! DeWindows()
 endfunction
 
 function! SentenceToLine()
-	silent execute '%s/\. \([A-Z]\)/.\r\1/g'
+	silent execute '%s/\. \+\([A-Z]\)/.\r\1/g'
 endfunction
 
 function! LatexQuotes()
 	silent execute "%s/“/``/g"
 	silent execute "%s/”/''/g" 
 endfunction
+
 	
 " }}}

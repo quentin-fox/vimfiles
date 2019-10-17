@@ -7,3 +7,4 @@ abbr Tihs This
 abbr MAID MAiD
 abbr MAid MAiD
 abbr MaiD MAiD
+abbr canada Canada

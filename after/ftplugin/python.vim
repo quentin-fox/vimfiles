@@ -17,14 +17,7 @@ nnoremap <Space> za
 autocmd BufWritePre *.py :%s/\s\+$//e
 
 " changes the repl attached to the &ft=python from python to python3
-let python_repl = {
-            \ 'bin': 'python3',
-            \ 'args': [],
-            \ 'syntax': '',
-            \ 'title': 'Python REPL',
-            \ }
-
-call repl#define_repl('python', python_repl, 'force')
+" changed after switching to pyenv
 
 autocmd BufEnter term://* startinsert
 
