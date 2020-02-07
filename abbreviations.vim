@@ -4,7 +4,11 @@ abbr teh the
 abbr Teh The
 abbr tihs this
 abbr Tihs This
+abbr taht that
+abbr Taht That
 abbr MAID MAiD
 abbr MAid MAiD
 abbr MaiD MAiD
 abbr canada Canada
+abbr htink think
+abbr Htink Think

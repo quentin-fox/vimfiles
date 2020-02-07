@@ -10,7 +10,8 @@ set fileformat=unix
 
 " code folding options
 set foldmethod=indent
-set foldnestmax=2
+set foldnestmax=1
+set foldlevelstart=99 " no folds closed by default, but folding still enabled
 nnoremap <Space> za
 
 " clear empty spaces at the end of lines on save of python files
@@ -22,3 +23,7 @@ autocmd BufWritePre *.py :%s/\s\+$//e
 autocmd BufEnter term://* startinsert
 
 " nnoremap <silent> sic :call search('class', 'b')<Cr>V/^n
+
+" pair matching for f-strings
+
+

@@ -3,8 +3,7 @@
 source ~/.config/nvim/highlight.vim
 
 " snippets
-command Texcount call execute("!texcount %")
-set nospell
+" command Texcount call execute("!texcount %")
 inoremap ;fn \footnote{}<++><Esc>?}<Enter>i
 inoremap ;ct \citet{}<++><Esc>?}<Enter>i
 inoremap ;cp \citep{}<++><Esc>?}<Enter>i

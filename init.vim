@@ -1,93 +1,115 @@
- "  _           _   _                 _             
- " (_)  _ __   (_) | |_      __   __ (_)  _ __ ___  
- " | | | '_ \  | | | __|     \ \ / / | | | '_ ` _ \ 
+"  _           _   _                 _
+ " (_)  _ __   (_) | |_      __   __ (_)  _ __ ___
+ " | | | '_ \  | | | __|     \ \ / / | | | '_ ` _ \
  " | | | | | | | | | |_   _   \ V /  | | | | | | | |
  " |_| |_| |_| |_|  \__| (_)   \_/   |_| |_| |_| |_|
  "                                                  
+
+ if !exists('g:vscode')
 
 " {{{ plugins
 set nocompatible              " be iMproved, required
 filetype off                  " required 
 " set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
+" set rtp+=~/.vim/bundle/Vundle.vim
+" call vundle#begin()
 " alternatively, pass a path where Vundle should install plugins
 "call vundle#begin('~/some/path/here')
 
 " let Vundle manage Vundle, required
+call plug#begin('~/.vim/plugged')
 
 " basics
-Plugin 'VundleVim/Vundle.vim'
-Plugin 'dkarter/bullets.vim'
-Plugin 'tpope/vim-surround'
-" Plugin 'ervandew/supertab'
-Plugin 'junegunn/goyo.vim'
-Plugin 'tpope/vim-commentary'
-Plugin 'christoomey/vim-titlecase'
-Plugin 'itchyny/lightline.vim'
-Plugin 'jiangmiao/auto-pairs'
-Plugin 'tpope/vim-speeddating'
-Plugin 'triglav/vim-visual-increment'
-Plugin 'AndrewRadev/sideways.vim'
-Plugin 'junegunn/fzf.vim'
-Plugin 'easymotion/vim-easymotion' 
-Plugin 'junegunn/vim-easy-align'
-Plugin 'severin-lemaignan/vim-minimap'
-Plugin 'michaeljsmith/vim-indent-object'
-Plugin 'tpope/vim-fugitive'
+Plug 'VundleVim/Vundle.vim'
+Plug 'dkarter/bullets.vim'
+Plug 'tpope/vim-surround'
+" Plug 'ervandew/supertab'
+Plug 'junegunn/goyo.vim'
+Plug 'tpope/vim-commentary'
+" Plug 'christoomey/vim-titlecase'
+Plug 'itchyny/lightline.vim'
+" Plug 'jiangmiao/auto-pairs'
+Plug 'tmsvg/pear-tree'
+Plug 'triglav/vim-visual-increment'
+Plug '/usr/local/opt/fzf'
+Plug 'junegunn/fzf.vim'
+" Plug 'easymotion/vim-easymotion' 
+Plug 'junegunn/vim-easy-align'
+Plug 'michaeljsmith/vim-indent-object'
+Plug 'tpope/vim-repeat'
+Plug 'junegunn/vim-slash'
+Plug 'tpope/vim-fugitive'
 
 " autocomplete
-Plugin 'roxma/nvim-yarp'
-Plugin 'ncm2/ncm2'
-" Plugin 'ncm2/ncm2-path'
-" Plugin 'ncm2/ncm2-bufword'
+" Plug 'roxma/nvim-yarp'
+" Plug 'ncm2/ncm2'
+" Plug 'ncm2/ncm2-path'
+" Plug 'ncm2/ncm2-bufword'
 
 " nerdtree
-" Plugin 'scrooloose/nerdtree'
+" Plug 'scrooloose/nerdtree'
 
 " colorschemes
 
-Plugin 'andreypopp/vim-colors-plain'
-Plugin 'ayu-theme/ayu-vim'
-Plugin 'romainl/Apprentice'
-Plugin 'arzg/vim-corvine'
-Plugin 'NewProggie/NewProggie-Color-Scheme'
+Plug 'andreypopp/vim-colors-plain'
+Plug 'ayu-theme/ayu-vim'
+Plug 'romainl/Apprentice'
+Plug 'arzg/vim-corvine'
+Plug 'NewProggie/NewProggie-Color-Scheme'
 
 " markdown
-Plugin 'godlygeek/tabular'
-Plugin 'vim-pandoc/vim-pandoc'
-Plugin 'vim-pandoc/vim-markdownfootnotes'
-Plugin 'vim-pandoc/vim-pandoc-syntax'
-Plugin 'plasticboy/vim-markdown'
+Plug 'godlygeek/tabular'
+Plug 'vim-pandoc/vim-pandoc'
+Plug 'vim-pandoc/vim-pandoc-syntax'
+Plug 'plasticboy/vim-markdown'
 
 " r
-" Plugin 'vim-pandoc/vim-rmarkdown'
-Plugin 'jalvesaq/Nvim-R'
-Plugin 'gaalcaras/ncm-R'
+" Plug 'vim-pandoc/vim-rmarkdown'
+Plug 'jalvesaq/Nvim-R'
+" Plug 'gaalcaras/ncm-R'
 
 " latex
-Plugin 'lervag/vimtex'
+Plug 'lervag/vimtex'
 
 " python
-" Plugin 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-Plugin 'Shougo/context_filetype.vim'
-" Plugin 'zchee/deoplete-jedi', { 'do': ':UpdateRemotePlugins' }
-Plugin 'davidhalter/jedi-vim'
-Plugin 'neomake/neomake'
-Plugin 'Vimjas/vim-python-pep8-indent'
-Plugin 'rhysd/reply.vim'
-Plugin 'jeetsukumaran/vim-pythonsense'
+" Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+Plug 'Shougo/context_filetype.vim'
+" Plug 'zchee/deoplete-jedi', { 'do': ':UpdateRemotePlugins' }
+" Plug 'davidhalter/jedi-vim'
+Plug 'neomake/neomake'
+Plug 'Vimjas/vim-python-pep8-indent'
+Plug 'jeetsukumaran/vim-pythonsense'
+Plug 'mtikekar/nvim-send-to-term'
+Plug 'HiPhish/repl.nvim'
 
 " web development
-Plugin 'alvan/vim-closetag'
-Plugin 'Glench/Vim-Jinja2-Syntax'
-Plugin 'jelera/vim-javascript-syntax'
-Plugin 'othree/javascript-libraries-syntax.vim' 
+Plug 'alvan/vim-closetag'
+Plug 'Glench/Vim-Jinja2-Syntax'
+Plug 'pangloss/vim-javascript'
+Plug 'othree/javascript-libraries-syntax.vim' 
+Plug 'styled-components/vim-styled-components', {'branch': 'main'}
+Plug 'mattn/emmet-vim'
+Plug 'ap/vim-css-color'
+Plug 'mlaursen/vim-react-snippets'
+
+Plug 'HerringtonDarkholme/yats.vim'
+Plug 'MaxMEllon/vim-jsx-pretty'
+" Plug 'peitalin/vim-jsx-typescript'
+" Plug 'leafgarland/typescript-vim'
+
 " in development
-Plugin 'quentin-fox/vimtitles', { 'do': ':UpdateRemotePlugins' }
+" Plug 'quentin-fox/vimtitles'
+Plug '~/iCloud/projects/vimtitles'
+Plug '~/iCloud/projects/nvimnotes'
+Plug '~/iCloud/projects/vimsearch'
+
+" coc
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+
 
 " All of your Plugins must be added before the following line
-call vundle#end()            " required
+call plug#end()
+" call vundle#end()            " required
 filetype plugin indent on    " required
 
 " }}}
@@ -96,6 +118,10 @@ filetype plugin indent on    " required
 syntax on
 
 set mouse=a
+
+" used for argdo
+" set hidden
+set confirm
 
 set termencoding=utf-8 encoding=utf-8
 
@@ -112,7 +138,7 @@ nnoremap <silent> ;<Enter> :nohlsearch<Cr>
 " disable line wrap
 set textwidth=0
 set wrap
-set nolist
+set list  " shows white space on current line
 
 
 " conceal
@@ -137,43 +163,17 @@ set completeopt-=preview
 au TermOpen * setlocal nonumber norelativenumber
 
 "fzf
-set rtp+=/usr/local/opt/fzf
-nnoremap <C-i> <nop>
 nnoremap <silent> <Tab> :FZF<Cr>
 nnoremap <silent> <S-Tab> :Lines<Cr>
+
+command! -bang -nargs=* Ag
+  \ call fzf#vim#grep(
+  \   'ag --column --numbers --noheading --smart-case '.shellescape(<q-args>), 1,
+  \   fzf#vim#with_preview(), <bang>0)
 
 " open fzf in floating window
 
 " let $FZF_DEFAULT_OPTS = '--layout=reverse'
-
-function! OpenFloatingWin()
-	let height = &lines - 3
-	let width = float2nr(&columns - (&columns * 2 / 10))
-	let col = float2nr((&columns - width) / 2)
-
-	let opts = {
-		\ 'relative': 'editor',
-		\ 'row': height * 0.3,
-		\ 'col': col + 30,
-		\ 'width': width * 2 / 3,
-		\ 'height': height / 2
-		\ }
-
-	let buf = nvim_create_buf(v:false, v:true)
-	let win = nvim_open_win(buf, v:true, opts)
-
-	"Set Floating Window Highlighting
-	call setwinvar(win, '&winhl', 'Normal:Pmenu')
-
-	setlocal
-		\ buftype=nofile
-		\ nobuflisted
-		\ bufhidden=hide
-		\ nonumber
-		\ norelativenumber
-		\ signcolumn=no
-
-endfunction
 
 " completion
 
@@ -192,7 +192,7 @@ colorscheme Apprentice
 
 
 autocmd ColorScheme * highlight Pmenu ctermfg=DarkGrey ctermbg=None guifg=DarkGrey guibg=237
-autocmd ColorScheme * highlight PmenuSel ctermfg=16 ctermbg=DarkGrey guifg=16 guibg=DarkGrey
+autocmd ColorScheme * highlight PmenuSel ctermfg=100 ctermbg=DarkGrey guifg=100 guibg=DarkGrey
 
 
 " }}}
@@ -206,7 +206,23 @@ source ~/.config/nvim/highlight.vim
 "{{{ basic keybindings
 
 " open config shortcuts
-nnoremap ;rc :sp ~/.config/nvim/init.vim<Cr>
+
+function! OpenConfig()
+
+	if bufname() == ""
+		execute "e ~/.config/nvim/init.vim"
+	else
+		if winwidth(0) > (winheight(0) * 1.5)
+			execute "vs ~/.config/nvim/init.vim"
+		else
+			execute "sp ~/.config/nvim/init.vim"
+		endif
+	endif
+endfunction
+
+nnoremap <silent> ;rc :call OpenConfig()<Cr>
+
+
 nnoremap ;ft :execute 'sp ~/.config/nvim/after/ftplugin/' . &filetype . '.vim'<Cr>
 nnoremap ;ab :sp ~/.config/nvim/abbreviations.vim<Cr>
 
@@ -227,6 +243,10 @@ vnoremap sP "+P
 
 nnoremap Y y$
 
+" gp to select what was last pasted
+
+nnoremap gp `[v`]
+
 " capital U to re-do
 
 nnoremap U <C-r>
@@ -245,6 +265,7 @@ nnoremap <C-h> <C-w><C-h>
 nnoremap <C-j> <C-w><C-j>
 nnoremap <C-k> <C-w><C-k>
 nnoremap <C-l> <C-w><C-l>
+
 
 tnoremap <C-h> <C-\><C-n><C-w><C-h>
 tnoremap <C-j> <C-\><C-n><C-w><C-j>
@@ -293,6 +314,13 @@ nnoremap <silent> g; g;zz
 
 nnoremap ;src :source %<Cr>
 
+" closetag support for xml/plist files
+
+let g:closetag_filetypes = 'html,xhtml,phtml,xml'
+
+" toggle recursive folds with <Space>
+nnoremap <silent> <Space> zA
+
 " }}}
 " {{{ plugin keybindings 
 
@@ -307,6 +335,10 @@ nnoremap <S-Right> :SidewaysRight<cr>
 
 xmap ga <Plug>(EasyAlign)
 nmap ga <Plug>(EasyAlign)
+
+" vim fugitive
+
+nnoremap ~ :Gstatus<Cr>
 
 " }}}
 " {{{ ncm2
@@ -327,75 +359,136 @@ inoremap <expr> <CR> (pumvisible() ? "\<c-y>" : "\<CR>")
 inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 
-autocmd BufEnter * call ncm2#disable_for_buffer()
+" autocmd BufEnter * call ncm2#disable_for_buffer()
 " autocmd BufEnter *.py, call ncm2#enable_for_buffer()
 
 
-let ncm2#popup_delay = 200
-let ncm2#complete_length = [[1, 1]]
+" let ncm2#popup_delay = 200
+" let ncm2#complete_length = [[1, 1]]
 
-let g:ncm2#matcher = 'substrfuzzy'
+" let g:ncm2#matcher = 'substrfuzzy'
 
-augroup my_cm_setup
-  autocmd!
-  autocmd BufEnter *.tex call ncm2#enable_for_buffer()
-  autocmd Filetype tex call ncm2#register_source({
-          \ 'name' : 'vimtex-cmds',
-          \ 'priority': 8,
-          \ 'complete_length': -1,
-          \ 'scope': ['tex'],
-          \ 'matcher': {'name': 'prefix', 'key': 'word'},
-          \ 'word_pattern': '\w+',
-          \ 'complete_pattern': g:vimtex#re#ncm2#cmds,
-          \ 'on_complete': ['ncm2#on_complete#omni', 'vimtex#complete#omnifunc'],
-          \ })
-  autocmd Filetype tex call ncm2#register_source({
-          \ 'name' : 'vimtex-labels',
-          \ 'priority': 8,
-          \ 'complete_length': -1,
-          \ 'scope': ['tex'],
-          \ 'matcher': {'name': 'combine',
-          \             'matchers': [
-          \               {'name': 'substr', 'key': 'word'},
-          \               {'name': 'substr', 'key': 'menu'},
-          \             ]},
-          \ 'word_pattern': '\w+',
-          \ 'complete_pattern': g:vimtex#re#ncm2#labels,
-          \ 'on_complete': ['ncm2#on_complete#omni', 'vimtex#complete#omnifunc'],
-          \ })
-  autocmd Filetype tex call ncm2#register_source({
-          \ 'name' : 'vimtex-files',
-          \ 'priority': 8,
-          \ 'complete_length': -1,
-          \ 'scope': ['tex'],
-          \ 'matcher': {'name': 'combine',
-          \             'matchers': [
-          \               {'name': 'abbrfuzzy', 'key': 'word'},
-          \               {'name': 'abbrfuzzy', 'key': 'abbr'},
-          \             ]},
-          \ 'word_pattern': '\w+',
-          \ 'complete_pattern': g:vimtex#re#ncm2#files,
-          \ 'on_complete': ['ncm2#on_complete#omni', 'vimtex#complete#omnifunc'],
-          \ })
-  autocmd Filetype tex call ncm2#register_source({
-          \ 'name' : 'bibtex',
-          \ 'priority': 8,
-          \ 'complete_length': -1,
-          \ 'scope': ['tex'],
-          \ 'matcher': {'name': 'combine',
-          \             'matchers': [
-          \               {'name': 'prefix', 'key': 'word'},
-          \               {'name': 'abbrfuzzy', 'key': 'abbr'},
-          \               {'name': 'abbrfuzzy', 'key': 'menu'},
-          \             ]},
-          \ 'word_pattern': '\w+',
-          \ 'complete_pattern': g:vimtex#re#ncm2#bibtex,
-          \ 'on_complete': ['ncm2#on_complete#omni', 'vimtex#complete#omnifunc'],
-          \ })
-augroup END
+" augroup my_cm_setup
+"   autocmd!
+"   autocmd BufEnter *.tex call ncm2#enable_for_buffer()
+"   autocmd Filetype tex call ncm2#register_source({
+"           \ 'name' : 'vimtex-cmds',
+"           \ 'priority': 8,
+"           \ 'complete_length': -1,
+"           \ 'scope': ['tex'],
+"           \ 'matcher': {'name': 'prefix', 'key': 'word'},
+"           \ 'word_pattern': '\w+',
+"           \ 'complete_pattern': g:vimtex#re#ncm2#cmds,
+"           \ 'on_complete': ['ncm2#on_complete#omni', 'vimtex#complete#omnifunc'],
+"           \ })
+"   autocmd Filetype tex call ncm2#register_source({
+"           \ 'name' : 'vimtex-labels',
+"           \ 'priority': 8,
+"           \ 'complete_length': -1,
+"           \ 'scope': ['tex'],
+"           \ 'matcher': {'name': 'combine',
+"           \             'matchers': [
+"           \               {'name': 'substr', 'key': 'word'},
+"           \               {'name': 'substr', 'key': 'menu'},
+"           \             ]},
+"           \ 'word_pattern': '\w+',
+"           \ 'complete_pattern': g:vimtex#re#ncm2#labels,
+"           \ 'on_complete': ['ncm2#on_complete#omni', 'vimtex#complete#omnifunc'],
+"           \ })
+"   autocmd Filetype tex call ncm2#register_source({
+"           \ 'name' : 'vimtex-files',
+"           \ 'priority': 8,
+"           \ 'complete_length': -1,
+"           \ 'scope': ['tex'],
+"           \ 'matcher': {'name': 'combine',
+"           \             'matchers': [
+"           \               {'name': 'abbrfuzzy', 'key': 'word'},
+"           \               {'name': 'abbrfuzzy', 'key': 'abbr'},
+"           \             ]},
+"           \ 'word_pattern': '\w+',
+"           \ 'complete_pattern': g:vimtex#re#ncm2#files,
+"           \ 'on_complete': ['ncm2#on_complete#omni', 'vimtex#complete#omnifunc'],
+"           \ })
+"   autocmd Filetype tex call ncm2#register_source({
+"           \ 'name' : 'bibtex',
+"           \ 'priority': 8,
+"           \ 'complete_length': -1,
+"           \ 'scope': ['tex'],
+"           \ 'matcher': {'name': 'combine',
+"           \             'matchers': [
+"           \               {'name': 'prefix', 'key': 'word'},
+"           \               {'name': 'abbrfuzzy', 'key': 'abbr'},
+"           \               {'name': 'abbrfuzzy', 'key': 'menu'},
+"           \             ]},
+"           \ 'word_pattern': '\w+',
+"           \ 'complete_pattern': g:vimtex#re#ncm2#bibtex,
+"           \ 'on_complete': ['ncm2#on_complete#omni', 'vimtex#complete#omnifunc'],
+"           \ })
+" augroup END
 
 
 "}}}
+" {{{ coc
+
+" Use tab for trigger completion with characters ahead and navigate.
+" Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+" Use <c-space> to trigger completion.
+inoremap <silent><expr> <c-space> coc#refresh()
+
+" Use <cr> to confirm completion, `<C-g>u` means break undo chain at current position.
+" Coc only does snippet and additional edit on confirm.
+inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+" Or use `complete_info` if your vim support it, like:
+" inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
+
+" Use `[g` and `]g` to navigate diagnostics
+nmap <silent> [g <Plug>(coc-diagnostic-prev)
+nmap <silent> ]g <Plug>(coc-diagnostic-next)
+
+" Remap keys for gotos
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+
+" Use K to show documentation in preview window
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+
+function! s:show_documentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  else
+    call CocAction('doHover')
+  endif
+endfunction
+
+
+nnoremap <silent> ge :CocCommand explorer --toggle<Cr>
+
+nnoremap <silent> <leader>pp :CocCommand prettier.formatFile<Cr>
+
+nnoremap <F2> <Plug>(coc-rename)
+
+
+" text objects
+
+xmap if <Plug>(coc-funcobj-i)
+xmap af <Plug>(coc-funcobj-a)
+omap if <Plug>(coc-funcobj-i)
+omap af <Plug>(coc-funcobj-a)
+
+" }}}
 " {{{ jedi
 
 let g:jedi#auto_initialization = 1
@@ -405,6 +498,7 @@ let g:jedi#smart_auto_mappings = 0
 let g:jedi#popup_on_dot = 0
 let g:jedi#completions_command = ""
 let g:jedi#show_call_signatures = "2"
+" let g:python3_host_prog = '~/.config/nvim_python/neovim3/bin/python'
 
 " }}}
 "{{{ spelling
@@ -421,7 +515,7 @@ inoremap <C-l> <c-g>u<Esc>[s1z=`]a<c-g>u
 "ctrl-s to jump back to last spelling mistake, open spelling menu
 
 inoremap <C-s> <Esc>ms[sea<C-x>s
-inoremap <C-y> <C-y><Esc>`sa
+" inoremap <C-y> <C-y><Esc>`sa
 "}}}
 "{{{ templates
 
@@ -500,6 +594,17 @@ let g:vimtex_view_skim_activate=1
 
 
 "}}}
+" {{{ markdown
+
+
+autocmd FileType pandoc nnoremap  gb mbI*<Space><Esc>`b2l
+
+" }}}
+" {{{ bullets.vim 
+
+let g:bullets_enabled_file_types = ['markdown', 'text', 'gitcommit', 'notes']
+
+" }}}
 "{{{ python
 
 " Neomake 
@@ -513,7 +618,8 @@ call neomake#configure#automake('nw', 750)
 augroup neomakeft
 	autocmd! neomakeft
 	autocmd BufEnter * silent NeomakeDisableBuffer
-	autocmd BufEnter *.py,*.srt silent NeomakeEnableBuffer
+	autocmd BufEnter *.py,*.js,*.jsx,*.ts,*.tsx silent NeomakeEnableBuffer
+	" autocmd BufEnter *.py silent NeomakeEnableBuffer
 augroup end
 
 let g:neomake_error_sign = {'text': '>', 'texthl': 'NeomakeErrorSign'}
@@ -601,10 +707,91 @@ endfunction
 
 " shortcut for run
 
-autocmd Filetype python nnoremap <Bar> :wa<Cr>:!flask run<Cr>
-
+" autocmd Filetype python nnoremap <Bar> :wa<Cr>:!flask run<Cr>
 
 "}}}
+" {{{ django 
+
+autocmd Filetype python,jinja.html nnoremap <Bar> :wa<Cr>:call ToggleDjango()<Cr>
+autocmd Filetype python,jinja.html nnoremap <silent> <C-\> :silent execute "!open http://127.0.0.1:8000/admin -a Firefox"<Cr>
+
+
+function! ToggleDjango()
+    " use toggle to initialize job
+    if !exists("g:django_running")
+	    let g:django_running = 0
+    endif
+    if g:django_running == 0
+        let g:django_job_id = jobstart(split(&shell) + split(&shellcmdflag) + ['python manage.py runserver'])
+        echo "Running Django Server, job " . g:django_job_id
+        let g:django_running = 1
+    elseif g:django_running == 1
+        call jobstop(g:django_job_id)
+        echo "Quitting Django Server, job " . g:django_job_id
+        let g:django_running = 0
+    endif
+endfunction
+
+command! DShell call execute("sp <bar> term source venv/bin/activate && python manage.py shell")
+
+
+" }}}
+" {{{ html
+
+
+" }}}
+" {{{ javascript 
+
+let g:neomake_javascript_enabled_makers = ['eslint']
+
+autocmd BufNewFile,BufRead *.jsx set filetype=javascript
+autocmd Filetype javascript set foldmethod=syntax
+
+hi link jsClassProperty Function
+
+"}}}
+" {{{ typescript 
+
+
+autocmd BufNewFile,BufRead,BufEnter *.ts setlocal filetype=typescript
+autocmd BufNewFile,BufRead,BufEnter *.tsx setlocal filetype=typescript.tsx
+
+" typescript settings for pear-tree defined in
+" overrides defaults to deal better with behavior of <>'s
+" use emmet instead to write JSX/html blocks
+" requires yats.vim syntax group of typescriptArrowFunc
+
+let g:neomake_typescript_enabled_makers = ['eslint']
+let g:neomake_typescript_eslint_exe = $PWD . '/node_modules/.bin/eslint'
+
+let g:neomake_typescript_tsx_enabled_makers = ['eslint']
+let g:neomake_typescript_tsx_eslint_exe = $PWD . '/node_modules/.bin/eslint'
+
+augroup tsx_pairs
+    autocmd!
+    autocmd FileType typescript,typescript.tsx let b:pear_tree_pairs = {
+                \ '`': {'closer': '`'},
+                \ '"': {'closer': '"'},
+                \ "'": {'closer': "'"},
+                \ '[': {'closer': ']'},
+                \ '(': {'closer': ')'},
+                \ '{': {'closer': '}'},
+                \ '<': {'closer': '>', 'not_in': ['typescriptArrowFunc']},
+		\ }
+    autocmd Filetype typescript,typescript.tsx set foldmethod=syntax
+augroup END
+
+" fixes the problems with highlights of imports
+hi link typescriptBlock typescriptBOM
+
+" }}}
+" {{{ pear-tree 
+
+let g:pear_tree_repeatable_expand = 0
+
+
+
+" }}}
 "{{{ r
 
 
@@ -616,11 +803,11 @@ let R_user_maps_only=0
 "{{{ transcription
 
 
-command! -nargs=1 -complete=file Transcribe call execute("below 6sp | term mpv --input-file=~/.config/mpv/mpvfifo " . fnameescape(<q-args>))
+" command! -nargs=1 -complete=file Transcribe call execute("below 6sp | term mpv --input-file=~/.config/mpv/mpvfifo " . fnameescape(<q-args>))
 
-nnoremap <silent> <Cr> :silent execute "!echo 'keypress p' > ~/.config/mpv/mpvfifo"<Cr>
-nnoremap <silent> = :silent execute "!echo 'seek 4' > ~/.config/mpv/mpvfifo"<Cr>
-nnoremap <silent> - :silent execute "!echo 'seek -4' > ~/.config/mpv/mpvfifo"<Cr>
+" nnoremap <silent> <Cr> :silent execute "!echo 'keypress p' > ~/.config/mpv/mpvfifo"<Cr>
+" nnoremap <silent> = :silent execute "!echo 'seek 4' > ~/.config/mpv/mpvfifo"<Cr>
+" nnoremap <silent> - :silent execute "!echo 'seek -4' > ~/.config/mpv/mpvfifo"<Cr>
 
 
 "}}}
@@ -642,6 +829,8 @@ function! DeWindows()
   " 'e' flag prevents errors from being displayed 
   execute '%s///ge'
   execute "%s/‘\|’/'/ge"
+  execute "%s/’/'/ge"
+  execute "%s/‘/'/ge"
   execute '%s/“\|”/"/ge'
   execute '%s/…/.../ge'
   execute '%s/–/-/ge'
@@ -658,5 +847,9 @@ function! LatexQuotes()
 	silent execute "%s/”/''/g" 
 endfunction
 
+nnoremap <F10> :echo synIDattr(synID(line("."), col("."), 1), "name")
+
 	
 " }}}
+
+endif

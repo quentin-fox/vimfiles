@@ -1,0 +1,10 @@
+{
+    "typescript.suggest.enabled": true,
+    "typescript.validate.enable": false,
+    "javascript.suggest.enabled": true,
+    "javascript.validate.enable": false,
+    "coc.preferences.formatOnSaveFiletypes": ["js"],
+    "explorer.keyMappings": {
+	    "<bs>": "collapse"
+    }
+}

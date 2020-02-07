@@ -11,8 +11,8 @@ highlight SpellCap cterm=undercurl ctermfg=81 gui=undercurl guifg=81 guisp=Light
 
 "neomake linting bar
 
-highlight NeomakeErrorSignDefault ctermbg=NONE guibg=NONE ctermfg=9 cterm=bold
-highlight NeomakeInfoSignDefault ctermbg=NONE guibg=NONE ctermfg=121 cterm=bold
-highlight NeomakeWarningSignDefault ctermbg=NONE guibg=NONE ctermfg=11 cterm=bold
-highlight NeomakeMessageSignDefault ctermbg=NONE guibg=NONE ctermfg=242 cterm=bold
-highlight SignColumn ctermbg=NONE
+highlight NeomakeErrorSignDefault ctermbg=235 guibg=NONE ctermfg=9 cterm=bold
+highlight NeomakeInfoSignDefault ctermbg=235 guibg=NONE ctermfg=121 cterm=bold
+highlight NeomakeWarningSignDefault ctermbg=235 guibg=NONE ctermfg=11 cterm=bold
+highlight NeomakeMessageSignDefault ctermbg=235 guibg=NONE ctermfg=242 cterm=bold
+highlight clear SignColumn
